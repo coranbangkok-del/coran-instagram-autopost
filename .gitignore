@@ -1,0 +1,6 @@
+candidate.json
+__pycache__/
+*.pyc
+.env
+.DS_Store
+images/_duplicates/

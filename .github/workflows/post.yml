@@ -1,0 +1,71 @@
+name: CORAN Instagram Auto-Post
+
+# 週2回・曜日と時刻を分散（機械的パターン回避）
+#   火 19:00 ICT (= 12:00 UTC)
+#   金 11:00 ICT (= 04:00 UTC)
+on:
+  schedule:
+    - cron: "0 12 * * 2"
+    - cron: "0 4 * * 5"
+  workflow_dispatch: {}   # 手動実行も可能
+
+permissions:
+  contents: write          # state/ をコミットして戻すため
+
+jobs:
+  prepare:
+    name: 投稿候補を作成
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prepare candidate
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_TO_USER_ID: ${{ secrets.LINE_TO_USER_ID }}
+        run: python src/main.py prepare
+      - name: Upload candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate
+          path: candidate.json
+          retention-days: 7
+
+  publish:
+    name: 承認後に投稿
+    needs: prepare
+    runs-on: ubuntu-latest
+    # ▼ 承認ゲート：production 環境に「必須レビュアー＝あなた」を設定する。
+    #   承認するまでこのジョブは止まり、却下すれば投稿されない。
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Download candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: candidate
+      - name: Publish to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+        run: python src/main.py publish
+      - name: Commit updated state
+        run: |
+          git config user.name "coran-autopost-bot"
+          git config user.email "bot@coran.local"
+          git add state/
+          git commit -m "chore: update post state [skip ci]" || echo "no changes"
+          git push
