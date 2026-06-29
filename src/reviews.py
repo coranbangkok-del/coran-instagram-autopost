@@ -1,18 +1,22 @@
 """
-Google レビュー取得 + 品質フィルタ + 個人情報マスク。
+お客様の声(レビュー)取得 + 品質フィルタ + 個人情報マスク。
 
-【報告書の指摘に対応】
-- 平凡/短すぎるレビューを除外（品質フィルタ）
-- 個人名・他店名の混入を抑制（マスク）
-- 全文引用しない（最大15語程度に要約引用するのは caption.py 側）
-レビューを使わない運用なら GOOGLE_PLACES_API_KEY を空にしておけばよい。
+【ソースの優先順位】
+1. reviews/curated.json（推奨）… オーナーが選んだ良いレビューだけを手動登録。
+   規約クリーン・品質完全コントロール・APIキー不要。
+2. Google Places API … curated が空で、かつ GOOGLE_PLACES_API_KEY/PLACE_ID がある時のみ。
+
+【報告書の指摘に対応】平凡/短すぎを除外・個人名/他店名をマスク・全文引用しない(要約は caption 側)。
 """
+import os
 import re
 import json
 
 import requests
 
 import config
+
+CURATED_PATH = os.path.join(config.ROOT, "reviews", "curated.json")
 
 # 競合店名など、混入したら困る固有名詞（必要に応じて追記）
 BLOCKLIST = [
@@ -35,8 +39,34 @@ def _mask_personal(text: str) -> str:
     return text.strip()
 
 
+def load_curated():
+    """reviews/curated.json を読む。各要素: {text, rating, author_initial}。"""
+    if not os.path.exists(CURATED_PATH):
+        return []
+    try:
+        with open(CURATED_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (ValueError, OSError):
+        return []
+    out = []
+    for r in data:
+        text = _mask_personal(r.get("text", ""))
+        if not text:
+            continue
+        out.append({
+            "rating": r.get("rating", 5),
+            "text": text,
+            "author_initial": r.get("author_initial", "G."),
+        })
+    return out
+
+
 def fetch_reviews():
-    """Google Places Details API からレビューを取得して品質フィルタを通す。"""
+    """お客様の声を取得。curated.json を最優先。無ければ Google Places API。"""
+    curated = load_curated()
+    if curated:
+        return curated
+
     if not config.GOOGLE_PLACES_API_KEY or not config.GOOGLE_PLACE_ID:
         return []
 
