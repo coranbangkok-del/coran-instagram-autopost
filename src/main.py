@@ -13,6 +13,7 @@ import sys
 import config
 import photo_picker
 import caption as caption_mod
+import caption_ai
 import reviews as reviews_mod
 
 
@@ -89,10 +90,10 @@ def prepare():
 
     if post_type == "review":
         photo, image_url = photo_picker.pick_photo(preferred_tags=["guest", "ambience", "review"])
-        text = caption_mod.build_review_caption(review)
+        text = caption_ai.build_caption("review", photo, review)
     else:
         photo, image_url = photo_picker.pick_photo(preferred_tags=["service", "treatment", "ambience"])
-        text = caption_mod.build_service_caption(photo)
+        text = caption_ai.build_caption("service", photo, None)
 
     candidate = {
         "post_type": post_type,
