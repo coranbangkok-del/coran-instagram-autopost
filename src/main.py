@@ -30,6 +30,15 @@ def _save_json(path, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def _set_output(name, value):
+    """GitHub Actions のジョブ出力に書く（publish ジョブの条件分岐に使う）。ローカルでは print のみ。"""
+    out = os.environ.get("GITHUB_OUTPUT")
+    if out:
+        with open(out, "a", encoding="utf-8") as f:
+            f.write(f"{name}={value}\n")
+    print(f"[OUTPUT] {name}={value}")
+
+
 def _next_post_type():
     """レビュー投稿とサービス投稿を交互に。状態は rotation.json。"""
     state = _load_json(config.ROTATION_STATE_PATH, {"last": "review"})
@@ -108,6 +117,58 @@ def prepare():
     print(f"[PREPARE] 候補を作成しました: {candidate['photo_file']} / {post_type}")
 
 
+def prepare_spot():
+    """スポット空き告知の投稿候補を作る（既定OFF・SPOT_SNS=on のときだけ）。
+
+    予約バックエンドの /api/spot-announcement?channel=sns から投稿可能キャプションを取得。
+    空きが無い/フラグOFF/失敗のときは候補を作らない（has_candidate=false → publish はスキップ）。
+    ★通常の review/service ローテとシャッフルバッグは乱さない（candidate に spot:true）。
+    """
+    if config.SPOT_SNS != "on":
+        print("[SPOT] SPOT_SNS がOFFのためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+    if not config.SPOT_ANNOUNCE_URL:
+        print("[SPOT] SPOT_ANNOUNCE_URL 未設定のためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+
+    import requests
+    try:
+        resp = requests.get(config.SPOT_ANNOUNCE_URL, timeout=30)
+        data = resp.json() if resp.status_code < 400 else {}
+    except Exception as e:  # ネットワーク等は「告知なし」に倒す（fail-closed）
+        print(f"[SPOT] 取得失敗のためスキップ: {e}")
+        _set_output("has_candidate", "false")
+        return
+
+    content = data.get("content") if data.get("available") else None
+    if not content or not content.get("caption"):
+        print("[SPOT] 空きが無い/告知なしのためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+
+    caption = content["caption"]
+    hashtags = content.get("hashtagsHint") or []
+    if hashtags:
+        caption = caption + "\n\n" + " ".join(hashtags)
+
+    photo, image_url = photo_picker.pick_photo(preferred_tags=["service", "treatment", "ambience"])
+    candidate = {
+        "post_type": "spot",
+        "spot": True,
+        "photo_file": photo["file"],
+        "image_url": image_url,
+        "caption": caption,
+        "review_key": None,
+    }
+    _save_json(config.CANDIDATE_PATH, candidate)
+    _write_summary(candidate)
+    _notify_line(candidate)
+    _set_output("has_candidate", "true")
+    print(f"[SPOT] 候補を作成しました: {candidate['photo_file']}")
+
+
 def publish():
     import instagram
     candidate = _load_json(config.CANDIDATE_PATH, None)
@@ -116,6 +177,11 @@ def publish():
 
     media_id = instagram.post_image(candidate["image_url"], candidate["caption"])
     print(f"[PUBLISH] 投稿成功 media_id={media_id}")
+
+    # スポット告知は通常ローテ/シャッフルバッグを乱さない（プロモは自由に再掲可）。
+    if candidate.get("spot"):
+        print("[PUBLISH] spot promo posted; rotation/shuffle state untouched.")
+        return
 
     # 使用済み状態を更新（写真・レビュー・交互フラグ）
     manifest = photo_picker.load_manifest()
@@ -134,7 +200,9 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
     if mode == "prepare":
         prepare()
+    elif mode == "prepare-spot":
+        prepare_spot()
     elif mode == "publish":
         publish()
     else:
-        raise SystemExit("使い方: python src/main.py [prepare|publish]")
+        raise SystemExit("使い方: python src/main.py [prepare|prepare-spot|publish]")

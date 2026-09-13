@@ -1,0 +1,67 @@
+name: CORAN Spot-Availability Promo Post
+
+# スポット空き自動告知（指示書 20260913_supa_spot-availability-auto-promo.md / 第1波 #2 SNS）。
+# ★既定OFF: SPOT_SNS が "on" 以外だと prepare-spot は候補を作らず、publish は条件でスキップされる。
+#   空き(availability)が無い日も候補なし＝投稿なし（fail-closed）。通常の post.yml ローテは一切触らない。
+on:
+  schedule:
+    - cron: "0 2 * * *"   # 09:00 ICT（夜間生成の翌朝に告知）
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: スポット告知候補を作成（空き時のみ）
+    runs-on: ubuntu-latest
+    outputs:
+      has_candidate: ${{ steps.prep.outputs.has_candidate }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prepare spot candidate
+        id: prep
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_TO_USER_ID: ${{ secrets.LINE_TO_USER_ID }}
+          SPOT_SNS: ${{ secrets.SPOT_SNS }}                 # "on" で有効化（未設定＝OFF）
+          SPOT_ANNOUNCE_URL: ${{ secrets.SPOT_ANNOUNCE_URL }} # /api/spot-announcement?channel=sns
+        run: python src/main.py prepare-spot
+      - name: Upload candidate
+        if: steps.prep.outputs.has_candidate == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate
+          path: candidate.json
+          retention-days: 7
+
+  publish:
+    name: 承認後に投稿（候補がある時のみ）
+    needs: prepare
+    if: needs.prepare.outputs.has_candidate == 'true'
+    runs-on: ubuntu-latest
+    # ▼ 承認ゲート：既存 post.yml と同じ production 環境（必須レビュアー）。バイパス禁止。
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Download candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: candidate
+      - name: Publish to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+        run: python src/main.py publish

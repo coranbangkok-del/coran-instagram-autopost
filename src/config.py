@@ -34,6 +34,12 @@ GOOGLE_PLACE_ID = _optional("GOOGLE_PLACE_ID")
 LINE_CHANNEL_ACCESS_TOKEN = _optional("LINE_CHANNEL_ACCESS_TOKEN")
 LINE_TO_USER_ID = _optional("LINE_TO_USER_ID")
 
+# --- スポット空き自動告知（任意・既定OFF）---
+#   SPOT_SNS="on" のときだけ prepare-spot が候補を作る。SPOT_ANNOUNCE_URL は
+#   予約バックエンドの GET /api/spot-announcement?channel=sns（投稿可能キャプションを返す）。
+SPOT_SNS = _optional("SPOT_SNS")               # "on" で有効化
+SPOT_ANNOUNCE_URL = _optional("SPOT_ANNOUNCE_URL")  # 例: https://book.coranbangkok.com/api/spot-announcement?channel=sns
+
 # --- パス ---
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMAGES_DIR = os.path.join(ROOT, "images")
