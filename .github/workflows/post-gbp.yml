@@ -1,0 +1,70 @@
+name: CORAN GBP Spot Promo Post
+
+# スポット空き告知を Google Business Profile（最新情報/特典）へ投稿（指示書 / 第1波 #3 GBP）。
+# ★既定OFF: GBP_POST が "on" 以外だと prepare-gbp は候補を作らず publish-gbp はスキップ。
+#   空きが無い日も候補なし＝投稿なし（fail-closed）。実投稿は Business Profile API の OAuth が必要。
+on:
+  schedule:
+    - cron: "10 2 * * *"   # 09:10 ICT（SNS と時刻をずらす）
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: GBP投稿候補を作成（空き時のみ）
+    runs-on: ubuntu-latest
+    outputs:
+      has_candidate: ${{ steps.prep.outputs.has_candidate }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prepare GBP candidate
+        id: prep
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+          GBP_POST: ${{ secrets.GBP_POST }}                 # "on" で有効化（未設定＝OFF）
+          GBP_ANNOUNCE_URL: ${{ secrets.GBP_ANNOUNCE_URL }} # /api/spot-announcement?channel=gbp
+          GBP_LANG: ${{ secrets.GBP_LANG }}
+        run: python src/main.py prepare-gbp
+      - name: Upload GBP candidate
+        if: steps.prep.outputs.has_candidate == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gbp_candidate
+          path: gbp_candidate.json
+          retention-days: 7
+
+  publish:
+    name: 承認後にGBPへ投稿（候補がある時のみ）
+    needs: prepare
+    if: needs.prepare.outputs.has_candidate == 'true'
+    runs-on: ubuntu-latest
+    # ▼ 承認ゲート：既存 production 環境（必須レビュアー）。バイパス禁止。
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Download GBP candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: gbp_candidate
+      - name: Publish to Google Business Profile
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+          GBP_ACCESS_TOKEN: ${{ secrets.GBP_ACCESS_TOKEN }}
+          GBP_ACCOUNT: ${{ secrets.GBP_ACCOUNT }}
+          GBP_LOCATION: ${{ secrets.GBP_LOCATION }}
+          GBP_LANG: ${{ secrets.GBP_LANG }}
+        run: python src/main.py publish-gbp

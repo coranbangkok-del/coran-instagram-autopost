@@ -169,6 +169,67 @@ def prepare_spot():
     print(f"[SPOT] 候補を作成しました: {candidate['photo_file']}")
 
 
+def prepare_gbp():
+    """GBP（Google Business Profile）投稿候補を作る（既定OFF・GBP_POST=on のときだけ）。
+    予約バックエンドの /api/spot-announcement?channel=gbp から投稿文（summary + CTA）を取得。
+    空きが無い/フラグOFF/失敗のときは候補を作らない（has_candidate=false）。写真は不要（テキスト投稿）。"""
+    if config.GBP_POST != "on":
+        print("[GBP] GBP_POST がOFFのためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+    if not config.GBP_ANNOUNCE_URL:
+        print("[GBP] GBP_ANNOUNCE_URL 未設定のためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+
+    import requests
+    try:
+        resp = requests.get(config.GBP_ANNOUNCE_URL, timeout=30)
+        data = resp.json() if resp.status_code < 400 else {}
+    except Exception as e:
+        print(f"[GBP] 取得失敗のためスキップ: {e}")
+        _set_output("has_candidate", "false")
+        return
+
+    content = data.get("content") if data.get("available") else None
+    if not content:
+        print("[GBP] 空きが無い/告知なしのためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+
+    summary = content.get("summary_en") if config.GBP_LANG == "en" else content.get("summary_ja")
+    summary = summary or content.get("summary_en") or content.get("summary_ja")
+    if not summary:
+        print("[GBP] summary が無いためスキップ。")
+        _set_output("has_candidate", "false")
+        return
+
+    candidate = {
+        "channel": "gbp",
+        "summary": summary,
+        "cta_url": (content.get("cta") or {}).get("url"),
+        "topic_type": content.get("topicType", "OFFER"),
+    }
+    _save_json(config.GBP_CANDIDATE_PATH, candidate)
+    md = f"## 📍 GBP投稿候補（承認待ち）\n\n**topicType:** {candidate['topic_type']}\n\n**本文:**\n\n```\n{summary}\n```\n\n**CTA:** {candidate['cta_url']}\n"
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write(md)
+    print(md)
+    _set_output("has_candidate", "true")
+    print("[GBP] 候補を作成しました。")
+
+
+def publish_gbp():
+    import gbp
+    candidate = _load_json(config.GBP_CANDIDATE_PATH, None)
+    if not candidate:
+        raise SystemExit("[GBP PUBLISH ERROR] gbp_candidate.json がありません。")
+    name = gbp.post_local_post(candidate["summary"], candidate.get("cta_url"), candidate.get("topic_type", "OFFER"))
+    print(f"[GBP PUBLISH] 投稿成功 name={name}")
+
+
 def publish():
     import instagram
     candidate = _load_json(config.CANDIDATE_PATH, None)
@@ -202,7 +263,11 @@ if __name__ == "__main__":
         prepare()
     elif mode == "prepare-spot":
         prepare_spot()
+    elif mode == "prepare-gbp":
+        prepare_gbp()
+    elif mode == "publish-gbp":
+        publish_gbp()
     elif mode == "publish":
         publish()
     else:
-        raise SystemExit("使い方: python src/main.py [prepare|prepare-spot|publish]")
+        raise SystemExit("使い方: python src/main.py [prepare|prepare-spot|prepare-gbp|publish|publish-gbp]")

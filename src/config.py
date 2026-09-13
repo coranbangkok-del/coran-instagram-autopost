@@ -40,6 +40,16 @@ LINE_TO_USER_ID = _optional("LINE_TO_USER_ID")
 SPOT_SNS = _optional("SPOT_SNS")               # "on" で有効化
 SPOT_ANNOUNCE_URL = _optional("SPOT_ANNOUNCE_URL")  # 例: https://book.coranbangkok.com/api/spot-announcement?channel=sns
 
+# --- Google Business Profile 投稿（任意・既定OFF）---
+#   GBP_POST="on" のときだけ prepare-gbp が候補を作る。GBP_ANNOUNCE_URL は ?channel=gbp。
+#   実投稿(publish-gbp)は GBP(Business Profile) API の OAuth が必要（ピンク/レッド + Takuro）。
+GBP_POST = _optional("GBP_POST")                     # "on" で有効化
+GBP_ANNOUNCE_URL = _optional("GBP_ANNOUNCE_URL")     # 例: https://book.coranbangkok.com/api/spot-announcement?channel=gbp
+GBP_ACCESS_TOKEN = _optional("GBP_ACCESS_TOKEN")     # OAuth2 アクセストークン（Business Profile スコープ）
+GBP_ACCOUNT = _optional("GBP_ACCOUNT")               # 例: accounts/1234567890
+GBP_LOCATION = _optional("GBP_LOCATION")             # 例: locations/9876543210
+GBP_LANG = _optional("GBP_LANG", "en")               # 投稿言語（GBP投稿は単一言語）
+
 # --- パス ---
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMAGES_DIR = os.path.join(ROOT, "images")
@@ -48,3 +58,4 @@ MANIFEST_PATH = os.path.join(IMAGES_DIR, "manifest.json")
 USED_STATE_PATH = os.path.join(STATE_DIR, "used.json")
 ROTATION_STATE_PATH = os.path.join(STATE_DIR, "rotation.json")
 CANDIDATE_PATH = os.path.join(ROOT, "candidate.json")
+GBP_CANDIDATE_PATH = os.path.join(ROOT, "gbp_candidate.json")
