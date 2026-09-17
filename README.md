@@ -58,6 +58,9 @@ Actions → CORAN Instagram Auto-Post → **Run workflow**（手動実行）
 `.github/workflows/post.yml` の `cron` を編集（UTC基準・ICTは+7時間）。
 
 ## 運用メモ
+- **承認待ちは常に最新の1件だけ**：次の候補が作られると、承認されなかった古い実行は自動で取り消される（`post.yml` の `concurrency`）。候補ファイルの保存は7日＝それより古い実行を承認しても投稿できない。
+- **承認依頼の通知**：`LINE_CHANNEL_ACCESS_TOKEN` と `LINE_TO_USER_ID` を Secrets に入れると、候補の写真・文章・承認画面へのリンクが LINE に届く。送信結果（送信済／未設定／失敗）は prepare の実行サマリに残る。未設定でも GitHub から必須レビュアー宛のメール／モバイルアプリ通知は届く。
+- **60日コミットが無いと GitHub は定期実行を黙って無効化する**：承認が続けば state のコミットが入るので起きない。止まっていたら Actions 画面の Enable workflow。
 - 写真在庫が少ないと巡が早く一周する。**最低15〜20枚**あると体感品質が上がる。
 - キャプションを将来 Claude API 生成に切り替えると、テンプレ感がさらに消える（別フェーズ）。
 - Reels連携は未実装（最大の伸びしろ。次フェーズ候補）。
