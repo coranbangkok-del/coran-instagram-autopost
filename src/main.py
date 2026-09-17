@@ -61,28 +61,64 @@ def _write_summary(candidate):
     print(md)
 
 
+def _run_url():
+    """この実行の GitHub Actions 画面（承認ボタンがある場所）。ローカルでは空文字。"""
+    server = os.environ.get("GITHUB_SERVER_URL", "").strip()
+    repo = os.environ.get("GITHUB_REPOSITORY", "").strip()
+    run_id = os.environ.get("GITHUB_RUN_ID", "").strip()
+    if not (server and repo and run_id):
+        return ""
+    return f"{server}/{repo}/actions/runs/{run_id}"
+
+
+def _append_summary(md):
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write(md)
+    print(md)
+
+
 def _notify_line(candidate):
-    """任意: LINE に投稿候補を Push（設定があれば）。承認自体は GitHub 側で行う。"""
+    """任意: LINE に投稿候補を Push（設定があれば）。承認自体は GitHub 側で行う。
+
+    通知の失敗で候補作成を止めない（例外は握って結果を返す）。結果は実行サマリに残す
+    ＝「通知が届いていたのに承認されなかった」のか「そもそも通知が無かった」のかを後から区別できる。
+    戻り値: "skipped"（未設定）/ "sent" / "failed:<理由>"
+    """
     if not config.LINE_CHANNEL_ACCESS_TOKEN or not config.LINE_TO_USER_ID:
-        return
-    import requests
-    text = (
-        f"📣 Instagram投稿候補（承認待ち）\n種別: {candidate['post_type']}\n\n"
-        f"{candidate['caption'][:300]}...\n\nGitHubで承認/却下してください。"
-    )
-    requests.post(
-        "https://api.line.me/v2/bot/message/push",
-        headers={"Authorization": f"Bearer {config.LINE_CHANNEL_ACCESS_TOKEN}"},
-        json={
-            "to": config.LINE_TO_USER_ID,
-            "messages": [
-                {"type": "image", "originalContentUrl": candidate["image_url"],
-                 "previewImageUrl": candidate["image_url"]},
-                {"type": "text", "text": text},
-            ],
-        },
-        timeout=30,
-    )
+        status = "skipped"
+    else:
+        import requests
+        run_url = _run_url()
+        text = (
+            f"📣 Instagram投稿候補（承認待ち）\n種別: {candidate['post_type']}\n\n"
+            f"{candidate['caption'][:300]}...\n\n"
+            f"▼ 承認/却下（Review deployments → Approve）\n{run_url or 'GitHub の Actions 画面'}\n\n"
+            f"※次の候補が作られると、この候補は自動で取り消されます。"
+        )
+        try:
+            resp = requests.post(
+                "https://api.line.me/v2/bot/message/push",
+                headers={"Authorization": f"Bearer {config.LINE_CHANNEL_ACCESS_TOKEN}"},
+                json={
+                    "to": config.LINE_TO_USER_ID,
+                    "messages": [
+                        {"type": "image", "originalContentUrl": candidate["image_url"],
+                         "previewImageUrl": candidate["image_url"]},
+                        {"type": "text", "text": text},
+                    ],
+                },
+                timeout=30,
+            )
+            # 本文はログに出さない（トークンや宛先IDを含むエラー文が返ることがあるため、状態コードのみ）。
+            status = "sent" if resp.status_code < 300 else f"failed:HTTP {resp.status_code}"
+        except Exception as e:
+            status = f"failed:{type(e).__name__}"
+
+    label = {"skipped": "未設定（LINE_CHANNEL_ACCESS_TOKEN / LINE_TO_USER_ID）", "sent": "送信済"}.get(status, status)
+    _append_summary(f"\n**LINE 承認依頼の通知:** {label}\n")
+    return status
 
 
 def prepare():

@@ -12,6 +12,13 @@ on:
 permissions:
   contents: write          # state/ をコミットして戻すため
 
+# 承認待ちの候補は常に最新の1件だけにする。
+#   次の候補が作られた時点で、承認されなかった古い実行は自動で取り消す
+#   （放置すると30日後に「失敗」になり、候補ファイルは7日で消えるので承認しても投稿できない）。
+concurrency:
+  group: ig-auto-post
+  cancel-in-progress: true
+
 jobs:
   prepare:
     name: 投稿候補を作成
