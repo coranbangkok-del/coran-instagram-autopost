@@ -40,6 +40,21 @@ jobs:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_TO_USER_ID: ${{ secrets.LINE_TO_USER_ID }}
         run: python src/main.py prepare
+      # 生成したブランド画像を main へ戻す。Instagram は公開URLから画像を取得するため、
+      # 承認より前に raw URL が引ける状態にしておく必要がある（承認画面のプレビューも同じURL）。
+      # 副次効果: 承認されなくても毎回コミットが入るので「60日無活動で cron 無効化」に戻らない。
+      - name: Commit generated image
+        run: |
+          git config user.name "coran-autopost-bot"
+          git config user.email "bot@coran.local"
+          git add -A images/generated
+          if git diff --cached --quiet; then
+            echo "生成画像に変更なし（BRAND_IMAGE=off か生成失敗）"
+          else
+            git commit -m "chore: brand image for next post [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
       - name: Upload candidate
         uses: actions/upload-artifact@v4
         with:
@@ -76,4 +91,5 @@ jobs:
           git config user.email "bot@coran.local"
           git add state/
           git commit -m "chore: update post state [skip ci]" || echo "no changes"
-          git push
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

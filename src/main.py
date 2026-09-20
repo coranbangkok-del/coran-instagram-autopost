@@ -14,6 +14,7 @@ import config
 import photo_picker
 import caption as caption_mod
 import caption_ai
+import brandimage
 import reviews as reviews_mod
 
 
@@ -39,19 +40,35 @@ def _set_output(name, value):
     print(f"[OUTPUT] {name}={value}")
 
 
+# 投稿の並び。3種を巡回させることで、プロフィールのグリッドで
+#   写真(A) → 実店舗の深ブラウン(C) → 写真(A) → お客様の声のクリーム(B)
+# と明暗が交互に並び、「肌色一色の壁」にならない。
+POST_CYCLE = ["service", "sanctuary", "service", "review"]
+
+
 def _next_post_type():
-    """レビュー投稿とサービス投稿を交互に。状態は rotation.json。"""
+    """次の投稿種別と、その巡回位置を返す。状態は rotation.json。"""
     state = _load_json(config.ROTATION_STATE_PATH, {"last": "review"})
-    return "service" if state.get("last") == "review" else "review"
+    seq = state.get("seq")
+    if seq is None:  # 旧形式（last だけ）からの移行
+        last = state.get("last")
+        seq = POST_CYCLE.index(last) if last in POST_CYCLE else -1
+    nxt = (int(seq) + 1) % len(POST_CYCLE)
+    return POST_CYCLE[nxt], nxt
 
 
 def _write_summary(candidate):
     """GitHub Actions の実行サマリに投稿候補を表示（承認者が中身を見られる）。"""
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    layout = candidate.get("layout")
+    lname = {"A": "A エディトリアル（写真）", "B": "B お客様の声（クリーム地）",
+             "C": "C サンクチュアリ（深ブラウン地）"}.get(layout, "—（素材のまま）")
     md = (
         f"## 📣 投稿候補（承認待ち）\n\n"
-        f"**種別:** {candidate['post_type']}\n\n"
-        f"**写真:** `{candidate['photo_file']}`\n\n"
+        f"**種別:** {candidate['post_type']}　／　**組み方:** {lname}\n\n"
+        f"**素材:** `{candidate['photo_file']}`"
+        + (f"　→　**生成:** `{candidate['generated_file']}`" if candidate.get("generated_file") else "")
+        + "\n\n"
         f"![preview]({candidate['image_url']})\n\n"
         f"**キャプション:**\n\n```\n{candidate['caption']}\n```\n"
     )
@@ -122,7 +139,7 @@ def _notify_line(candidate):
 
 
 def prepare():
-    post_type = _next_post_type()
+    post_type, seq = _next_post_type()
     review = None
 
     if post_type == "review":
@@ -130,19 +147,40 @@ def prepare():
         used_state = _load_json(config.USED_STATE_PATH, {"cycle": [], "history": [], "reviews": []})
         review = reviews_mod.pick_unused_review(good, set(used_state.get("reviews", [])))
         if not review:
-            print("[PREPARE] 使えるレビューが無いため service 投稿に切り替えます。")
-            post_type = "service"
+            # 引用できる声が無いときは空の吹き出しを出さず、実店舗の回へ振り替える
+            print("[PREPARE] 使えるレビューが無いため sanctuary 投稿に切り替えます。")
+            post_type = "sanctuary"
 
-    if post_type == "review":
-        photo, image_url = photo_picker.pick_photo(preferred_tags=["guest", "ambience", "review"])
-        text = caption_ai.build_caption("review", photo, review)
+    # 注意: "ambience" は施術写真にも付いているので sanctuary の条件に入れない
+    #       （入れると実店舗以外が選ばれ、C レイアウトの意味が無くなる）
+    PREFER = {
+        "review":    ["interior"],
+        "sanctuary": ["sanctuary"],
+        "service":   ["service", "treatment", "ambience"],
+    }
+    photo, source_url = photo_picker.pick_photo(preferred_tags=PREFER[post_type])
+
+    caption_kind = "review" if post_type == "review" else "service"
+    text = caption_ai.build_caption(caption_kind, photo, review)
+
+    image_url, generated_file, layout = source_url, None, None
+    if config.BRAND_IMAGE == "on":
+        eyebrow = brandimage.meta_for(photo)[0]
+        headline = caption_ai.build_image_headline(caption_kind, photo, review, eyebrow)
+        url, rel, lay = brandimage.build(post_type, photo, review, headline)
+        if url:
+            image_url, generated_file, layout = url, rel, lay
+        else:
+            print("[PREPARE] ブランド画像を作れなかったため、素材をそのまま使います。")
     else:
-        photo, image_url = photo_picker.pick_photo(preferred_tags=["service", "treatment", "ambience"])
-        text = caption_ai.build_caption("service", photo, None)
+        print("[PREPARE] BRAND_IMAGE=off のため素材をそのまま使います。")
 
     candidate = {
         "post_type": post_type,
+        "seq": seq,
         "photo_file": photo["file"],
+        "generated_file": generated_file,
+        "layout": layout,
         "image_url": image_url,
         "caption": text,
         "review_key": (review["text"][:60] if review else None),
@@ -150,7 +188,7 @@ def prepare():
     _save_json(config.CANDIDATE_PATH, candidate)
     _write_summary(candidate)
     _notify_line(candidate)
-    print(f"[PREPARE] 候補を作成しました: {candidate['photo_file']} / {post_type}")
+    print(f"[PREPARE] 候補を作成しました: {candidate['photo_file']} / {post_type} / layout={layout}")
 
 
 def prepare_spot():
@@ -290,7 +328,8 @@ def publish():
         used_state.setdefault("reviews", []).append(candidate["review_key"])
         _save_json(config.USED_STATE_PATH, used_state)
 
-    _save_json(config.ROTATION_STATE_PATH, {"last": candidate["post_type"]})
+    _save_json(config.ROTATION_STATE_PATH,
+               {"last": candidate["post_type"], "seq": candidate.get("seq", 0)})
 
 
 if __name__ == "__main__":
