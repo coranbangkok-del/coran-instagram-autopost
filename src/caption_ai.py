@@ -88,3 +88,68 @@ def _fallback(post_type, photo, review):
     if post_type == "review" and review:
         return tmpl.build_review_caption(review)
     return tmpl.build_service_caption(photo)
+
+
+# ---------------------------------------------------------------- 画像に載せる一行
+HEADLINE_SYSTEM = """\
+あなたは高級ブティックスパ「CORAN Boutique Spa」(バンコク Sukhumvit Soi 15) の
+Instagram 画像に載せる「見出し」を書くコピーライターです。
+
+# 出力の形式（厳守）
+1行目: 英語の見出し
+2行目: 日本語の見出し
+それ以外は一切出力しない（前置き・説明・記号・引用符・ハッシュタグ・絵文字は禁止）。
+
+# 書き方
+- 英語は 最大42文字。日本語は 最大26文字。必ずこの範囲に収める。
+- 写真に写っているものと、与えられたカテゴリに必ず合わせる。
+- 静かで上質。五感に触れる具体。宣伝文句や誇張はしない。
+- 価格・所要時間・割引・受賞名・電話番号など「事実の主張」は書かない（別の場所に載せる）。
+- 英語と日本語は直訳でなくてよい。それぞれ自然な一行にする。
+- 毎回ちがう言い回しにする。定型の反復は禁止。
+"""
+
+
+def _clip(s, n):
+    s = " ".join(str(s).split())
+    return s if len(s) <= n else s[:n].rstrip(" 、。,.")
+
+
+def build_image_headline(post_type, photo, review=None, eyebrow=""):
+    """画像用の見出し（英1行・和1行）を Claude で作る。
+
+    戻り値: (en, ja) / 生成できなければ None（呼び出し側がカテゴリ別テンプレを使う）
+    """
+    if not os.environ.get("ANTHROPIC_API_KEY", "").strip():
+        return None
+
+    cat = (photo or {}).get("file", "").split("/")[0]
+    user = (f"カテゴリ: {eyebrow or cat}\n"
+            f"写真: {cat}\n")
+    if post_type == "review" and review:
+        user += (f"種別: お客様の声\n"
+                 f"お客様の声(抜粋): \"{(review.get('text') or '')[:180]}\"\n"
+                 "この声に添う、感謝の気持ちが伝わる見出しを書いてください。\n")
+    else:
+        user += "種別: 施術・空間の紹介\nこのカテゴリの施術や空間が伝わる見出しを書いてください。\n"
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic()
+        resp = client.messages.create(
+            model=MODEL, max_tokens=200, system=HEADLINE_SYSTEM,
+            messages=[{"role": "user", "content": user}],
+        )
+        text = "".join(b.text for b in resp.content if b.type == "text").strip()
+        lines = [l.strip() for l in text.splitlines() if l.strip()]
+        if len(lines) < 2:
+            print("[HEADLINE] 2行で返らなかったためテンプレへ")
+            return None
+        en, ja = _clip(lines[0], 42), _clip(lines[1], 26)
+        if not en or not ja:
+            return None
+        print(f"[HEADLINE] Claude生成に成功: {en} / {ja}")
+        return en, ja
+    except Exception as e:
+        print(f"[HEADLINE] 生成に失敗({type(e).__name__}) → テンプレートにフォールバック")
+        return None

@@ -50,6 +50,11 @@ GBP_ACCOUNT = _optional("GBP_ACCOUNT")               # 例: accounts/1234567890
 GBP_LOCATION = _optional("GBP_LOCATION")             # 例: locations/9876543210
 GBP_LANG = _optional("GBP_LANG", "en")               # 投稿言語（GBP投稿は単一言語）
 
+# --- 画像のブランド化（CORAN Frame）---
+#   既定はON。素材をそのまま投げず、4:5(1080x1350)のCORANの画に変換してから投稿する。
+#   不具合時は Secrets/変数に BRAND_IMAGE=off を入れれば従来どおり素材をそのまま使う。
+BRAND_IMAGE = (_optional("BRAND_IMAGE", "on") or "on").lower()
+
 # --- パス ---
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMAGES_DIR = os.path.join(ROOT, "images")
@@ -57,5 +62,9 @@ STATE_DIR = os.path.join(ROOT, "state")
 MANIFEST_PATH = os.path.join(IMAGES_DIR, "manifest.json")
 USED_STATE_PATH = os.path.join(STATE_DIR, "used.json")
 ROTATION_STATE_PATH = os.path.join(STATE_DIR, "rotation.json")
+FONTS_DIR = os.path.join(ROOT, "fonts")
+ASSETS_DIR = os.path.join(ROOT, "assets")
+MARK_PATH = os.path.join(ASSETS_DIR, "coran-mark.png")
+GENERATED_DIR = os.path.join(IMAGES_DIR, "generated")
 CANDIDATE_PATH = os.path.join(ROOT, "candidate.json")
 GBP_CANDIDATE_PATH = os.path.join(ROOT, "gbp_candidate.json")

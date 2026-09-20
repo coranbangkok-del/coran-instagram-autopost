@@ -16,8 +16,38 @@ z.com を完全に捨て、**コードも画像も GitHub** で動かす自動�
 
 ## 仕組み
 ```
-火/金 cron → prepare（写真+文章を作成）→ 🚦承認ゲート（あなたがOK）→ publish（投稿）→ state更新
+火/金 cron → prepare（写真を選ぶ → CORAN Frame で 4:5 のブランド画像を作る → 文章を作る）
+          → 生成画像を main へコミット（Instagram は公開URLから画像を取りにくるため）
+          → 🚦承認ゲート（あなたが完成画を見てOK）→ publish（投稿）→ state更新
 ```
+
+## CORAN Frame（画像のブランド化・2026-09-20〜）
+
+素材をそのまま投げず、**4:5（1080×1350）の「CORANの画」**に変換してから投稿する。
+
+| 直したこと | 中身 |
+|---|---|
+| 比率 | 素材の約9割が 16:9。IGの4:5グリッドで**横の約55%が切られ**、占有面積が約1/1.8だった → 4:5固定 |
+| トーン | 彩度−16%・影にブラウン・ハイライトにゴールド。出典がバラバラでも一本の作品に見える |
+| リズム | `service(A) → sanctuary(C) → service(A) → review(B)` を巡回。3列グリッドで明暗が市松に並ぶ |
+| 自社性 | Webの既存デザインシステム（Gold `#C9A96E`／Brown `#4F3834`／Cream `#FAF6F0`／Playfair + Noto Sans JP）をSNSへ移植 |
+
+**レイアウト3型** … A エディトリアル（写真全面）／B お客様の声（クリーム地・アーチ窓・★5）／C サンクチュアリ（深ブラウン地・実店舗を切らずに額装）
+
+- 実装 … `src/brandkit.py`（描画）・`src/brandimage.py`（組み方と一行の決定）
+- 見出し … Claude が英1行・和1行を生成。APIが無い/失敗したらカテゴリ別テンプレ（写真ごとに文言が変わる）
+- 生成物 … `images/generated/` に**最新1枚だけ**残る（承認待ちは常に最新1件のため）
+- 外部API・追加費用なし（Pillow + numpy のみ）。**実在しない部屋やスタッフのAI生成はしない**
+- 止めたいとき … 変数 `BRAND_IMAGE=off` で素材そのままの従来動作に戻る
+
+```bash
+python tools/selftest_brand.py    # セルフテスト（ネットワーク不要・46項目）
+python tools/preview_grid.py      # 9枚のグリッド見本を .preview/ に出す
+python tools/build_manifest.py    # manifest.json を実体から作り直す（除外理由もここ）
+```
+
+**素材の取捨は `tools/build_manifest.py` の EXCLUDE / AROMA_KEEP が単一の情報源**。
+理由をコメントで必ず残すこと（何をなぜ外したかが後から分かるように）。
 
 ## セットアップ（一度だけ）
 
