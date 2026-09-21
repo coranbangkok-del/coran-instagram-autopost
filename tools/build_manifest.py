@@ -39,6 +39,14 @@ AROMA_KEEP = {
 AROMA_KEEP_FILES = {
     "aroma/coran-spa-bangkok-deep-tissue-massage-40.png",
     "aroma/coran-spa-bangkok-deep-tissue-massage-42.png",
+    # 2026-09-21 社長の Drive 3フォルダ（トリートメント写真／Photo from Canva／ナイトホテル写真）から追加。
+    # 同じ「背中に手」でも構図が違うもの・縦長・自社撮影の高解像度だけを入れた（取り込み元は -src- の命名）。
+    "aroma/coran-spa-bangkok-aroma-src-01.jpg",
+    "aroma/coran-spa-bangkok-aroma-src-02.jpg",
+    "aroma/coran-spa-bangkok-aroma-src-03.jpg",
+    "aroma/coran-spa-bangkok-aroma-src-04.jpg",
+    "aroma/coran-spa-bangkok-aroma-src-05.jpg",
+    "aroma/coran-spa-bangkok-aroma-src-06.jpg",
 }
 
 # 建物の外観は「場所」としては使えるが、アーチ窓（お客様の声）に入れると暗く騒がしい。
@@ -70,6 +78,9 @@ ALT = {
     "office-syndrome": "CORAN office syndrome relief massage",
     "product": "CORAN spa products",
     "shop": "the CORAN spa itself (reception, treatment rooms, entrance)",
+    "shirodhara": "CORAN Ayurvedic shirodhara, warm oil poured on the forehead",
+    "thai-massage": "CORAN traditional Thai massage",
+    "concept": "the calm, natural atmosphere of CORAN",
 }
 
 # 1枚だけ組み方を変えたいもの
