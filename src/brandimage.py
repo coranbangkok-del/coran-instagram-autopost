@@ -74,6 +74,14 @@ CATEGORY = {
     "product": ("Our Products", "A", [
         ("Made for the skin we touch.", "施術で使うものを、そのままお持ち帰りに。"),
     ]),
+    "shirodhara": ("Shirodhara · Ayurveda", "A", [
+        ("A single thread of warm oil.", "額に落ちる一筋のオイルが、思考を静めていく。"),
+        ("Let the mind go quiet.", "考えごとが、しずかに止まっていく。"),
+    ]),
+    "thai-massage": ("Traditional Thai Massage", "A", [
+        ("Stretch, breathe, begin again.", "伸びて、ほどけて、また歩き出せる。"),
+        ("An old Thai craft, done with care.", "タイに受け継がれる手技を、ていねいに。"),
+    ]),
     "shop": ("Our Sanctuary", "C", [
         ("A quiet street, a quieter room.", "スクンビット soi 15、静かな一角に。"),
         ("Third floor. The city drops away.", "3階のドアを開けると、街の音が遠くなる。"),
