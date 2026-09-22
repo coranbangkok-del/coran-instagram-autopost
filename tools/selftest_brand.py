@@ -48,8 +48,8 @@ man = json.load(open(config.MANIFEST_PATH, encoding="utf-8"))
 check("manifest が空でない", len(man) > 0, f"{len(man)} 枚")
 missing = [e["file"] for e in man if not os.path.exists(os.path.join(config.IMAGES_DIR, e["file"]))]
 check("manifest の全ファイルが実在する", not missing, str(missing[:3]))
-check("生成物(generated/)が素材に混ざっていない",
-      not [e for e in man if e["file"].startswith("generated/")])
+check("生成物(generated/・calendar/)が素材に混ざっていない",
+      not [e for e in man if e["file"].startswith(("generated/", "calendar/"))])
 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import build_manifest  # noqa: E402
@@ -59,8 +59,10 @@ check("除外したファイルが manifest に残っていない", not bad, str
 check("aroma（元の素材）は 15 枚に絞られている",
       len([e for e in man if e["file"].startswith("aroma/") and "-src-" not in e["file"]]) == 15)
 # 2026-09-21 追加分（社長の Drive 3フォルダの元写真・-src- の命名）
-check("追加素材 29 枚が manifest に入っている",
-      len([e for e in man if "-src-" in e["file"]]) == 29)
+# 月次の写真取り込み（routine/photo-intake-*）は自動マージされる＝このファイルを毎月書き換えさせない。
+# 枚数は「減っていない」ことだけを見る（29 は 2026-09-21 時点の数）。
+check("追加素材が 29 枚以上 manifest に入っている",
+      len([e for e in man if "-src-" in e["file"]]) >= 29)
 check("新カテゴリ（シロダーラ・タイ古式）に専用の見出しがある",
       all(c in brandimage.CATEGORY for c in ("shirodhara", "thai-massage")))
 check("同じカテゴリでも写真が違えば見出しが変わる（テンプレの反復を防ぐ）",

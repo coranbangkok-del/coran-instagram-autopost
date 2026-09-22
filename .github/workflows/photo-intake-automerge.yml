@@ -1,0 +1,119 @@
+name: Photo intake auto-merge
+
+# 写真の月次取り込み（Mac の定期タスク purple-monthly-photo-intake）が作る PR を、
+# セルフテストが通り、変更が「画像の追加＋manifest」だけのときに限って自動でマージする（社長決定 2026-09-22）。
+#
+# 守り:
+#   - 対象はブランチ接頭辞 routine/photo-intake- だけ。それ以外の PR はセルフテストだけ走り、マージしない。
+#   - 公開 repo なので fork からの PR は必ず除外（head リポジトリがこの repo 自身のときだけ）。
+#     pull_request イベントなので fork の PR には書き込み権もシークレットも渡らない（pull_request_target は使わない）。
+#   - 変更ファイルの門番 tools/intake_guard.py は main の版で実行する（PR 側で書き換えても効かない）。
+#   - manifest.json は tools/build_manifest.py で作り直した結果と一致すること（手で除外を外していない）。
+#   - マージは --match-head-commit で「検査した commit」だけを対象にする（検査後の追い push は弾かれる）。
+#   - カレンダー PR（routine/ig-calendar-*）は社長の月次承認なので、ここでは絶対にマージしない。
+#   - シークレットは GITHUB_TOKEN 以外使わない。
+#
+# 起動:
+#   push（routine/photo-intake-** への push）… PR が無ければ作ってからマージする。
+#       PR の自動作成が repo 設定で禁止されている場合は、作成 URL を出して止まる → 人が PR を開けば下で自動マージ。
+#   pull_request（人が PR を開いた／更新した）… 検査してマージする。
+on:
+  push:
+    branches: ["routine/photo-intake-**"]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: photo-intake-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  selftest:
+    name: セルフテスト（ネットワーク不要）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python tools/selftest_brand.py
+      - run: python tools/selftest_calendar.py
+      - name: カレンダーの検証（PR に calendar/*.json があれば）
+        env:
+          IG_USER_ID: selftest
+          IG_ACCESS_TOKEN: selftest
+          IMAGE_BASE_URL: https://raw.githubusercontent.com/o/r/main/images
+        run: |
+          shopt -s nullglob
+          for f in calendar/*.json; do
+            m="$(basename "$f" .json)"
+            python src/main.py check-calendar "$m"
+          done
+
+  automerge:
+    name: 写真取り込み PR の自動マージ
+    needs: selftest
+    if: >-
+      (github.event_name == 'push' && startsWith(github.ref_name, 'routine/photo-intake-')) ||
+      (github.event_name == 'pull_request' &&
+       startsWith(github.head_ref, 'routine/photo-intake-') &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       github.event.pull_request.draft == false)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BRANCH: ${{ github.head_ref || github.ref_name }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 変更ファイルの門番（main の版で実行）
+        run: |
+          git fetch -q origin main
+          git show origin/main:tools/intake_guard.py > "$RUNNER_TEMP/intake_guard.py"
+          python "$RUNNER_TEMP/intake_guard.py" origin/main
+
+      - name: manifest が build_manifest.py の出力と一致する
+        run: |
+          python tools/build_manifest.py
+          git diff --exit-code -- images/manifest.json
+
+      - name: PR を用意してマージ
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            PR="${{ github.event.pull_request.number }}"
+          else
+            PR="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')"
+            if [ -n "$PR" ]; then
+              # 既に PR がある＝同じ push で pull_request(synchronize) 側も走る。二重マージを避けてそちらに任せる
+              echo "PR #$PR が既にあるので、pull_request 側の実行でマージします。"
+              exit 0
+            fi
+            if [ -z "$PR" ]; then
+              if ! gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$BRANCH" \
+                   --title "写真の月次取り込み（${BRANCH#routine/photo-intake-}）" \
+                   --body "Mac の定期タスク purple-monthly-photo-intake が作った写真取り込みです。セルフテストと変更ファイルの門番（画像の追加＋manifest のみ）を通ったので自動マージします。"; then
+                echo "::warning::PR を自動で作れませんでした（repo 設定『Allow GitHub Actions to create and approve pull requests』が無効の可能性）。次の URL から PR を開けば、自動でマージされます。"
+                echo "https://github.com/${GITHUB_REPOSITORY}/pull/new/${BRANCH}" | tee -a "$GITHUB_STEP_SUMMARY"
+                exit 0
+              fi
+              PR="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')"
+            fi
+          fi
+          echo "PR #$PR をマージ（検査した commit ${HEAD_SHA} に限る）"
+          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --squash --delete-branch --match-head-commit "$HEAD_SHA"
