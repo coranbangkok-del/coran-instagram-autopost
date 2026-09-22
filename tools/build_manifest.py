@@ -31,6 +31,9 @@ EXCLUDE = {
     "shop/lobby01.jpg":  "Night Hotel のロビー（CORANの空間ではない・配色が合わない）",
     "shop/lobby_01.png": "Night Hotel のロビー（CORANの空間ではない・配色が合わない）",
     "shop/lobby_02.png": "Night Hotel のロビー（CORANの空間ではない・配色が合わない）",
+    # 入口の立て看板に「SPECIAL OFFERS UP TO 30% DISCOUNT」と価格表が写っている（2026-09-22 パープル実測・
+    # スマホ承認のお試し候補で発見）。C 型の額装は切らずに見せるので、そのまま投稿に出てしまう。
+    "shop/enntrance_01.jpg": "入口の立て看板に割引の文言と価格表が写り込んでいる",
 }
 
 AROMA_KEEP = {
