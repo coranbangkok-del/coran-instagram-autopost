@@ -38,10 +38,11 @@ z.com を完全に捨て、**コードも画像も GitHub** で動かす自動�
 - 見出し … Claude が英1行・和1行を生成。APIが無い/失敗したらカテゴリ別テンプレ（写真ごとに文言が変わる）
 - 生成物 … `images/generated/` に**最新1枚だけ**残る（承認待ちは常に最新1件のため）
 - 外部API・追加費用なし（Pillow + numpy のみ）。**実在しない部屋やスタッフのAI生成はしない**
-- 止めたいとき … 変数 `BRAND_IMAGE=off` で素材そのままの従来動作に戻る
+- 画像は必ず CORAN Frame を通す（2026-09-22 社長指示で `BRAND_IMAGE=off`＝素材そのままの経路は撤去）。作れなければその回は候補なし
 
 ```bash
 python tools/selftest_brand.py    # セルフテスト（ネットワーク不要・48項目）
+python tools/selftest_approval.py # スマホ承認の検証（署名・締切・価格語・画像差し替え）
 python tools/selftest_intake.py   # 写真取り込み自動マージの門番のセルフテスト
 python tools/preview_grid.py      # 9枚のグリッド見本を .preview/ に出す
 python tools/build_manifest.py    # manifest.json を実体から作り直す（除外理由もここ）
@@ -49,6 +50,24 @@ python tools/build_manifest.py    # manifest.json を実体から作り直す（
 
 **素材の取捨は `tools/build_manifest.py` の EXCLUDE / AROMA_KEEP が単一の情報源**。
 理由をコメントで必ず残すこと（何をなぜ外したかが後から分かるように）。
+
+## スマホ承認（Claude の非公開ページ・2026-09-22〜）
+
+社長がスマホの Claude アプリで「画像と本文の確認・本文の修正・承認／見送り」をする。1投稿ずつ。承認が無い回は投稿しない。
+
+```
+投稿の24時間前  ルーティン: make-candidate → 画像を ig-queue の queue/<slot>/image.jpg へ push
+                             本文の下書き・画像の断片は確認ページの db（posts/<slot>）へ（repo には置かない）
+〜締切          社長: 確認ページで本文を直して「承認」→ 端末の鍵で署名（画像・本文・枠・時刻）
+締切（2時間前）  ルーティン: db を読み relay → queue/<slot>/approval.json を ig-queue へ push
+投稿枠          post.yml: check（署名・ハッシュ・締切・価格語）→ publish（production）→ state を main へ
+```
+
+- 検証は `src/approval.py`。公開鍵は Actions 変数 `IG_APPROVER_PUBKEYS`（未設定なら投稿しない）。
+- IG に渡す画像 URL は ig-queue の commit に固定（検証したバイト列と IG が取るバイト列が同じ）。
+- 確認ページの元は `approval-page/ig-approval.html`。署名の形・価格語のリストは `src/approval.py` と同じにする（selftest が照合）。
+- `python tools/selftest_approval.py`（ネットワーク不要・偽造／締切切れ／価格語／画像差し替えで投稿しないことを確かめる）。
+- 限界: main に push できる人はワークフロー自体を書き換えられる。IG のトークンは repo の Secret なので、枝に置いたワークフローからも使える。完全に閉じるには main の保護と、トークンを「main だけが使える環境の Secret」に移す設定が要る（決裁）。
 
 ## 写真の月次取り込み PR の自動マージ（2026-09-22〜）
 

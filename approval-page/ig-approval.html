@@ -1,0 +1,331 @@
+<title>CORAN 投稿承認</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* CORAN のデザインシステム（Web と CORAN Frame と同じ）: Gold #C9A96E / Brown #4F3834 / Cream #FAF6F0 */
+:root{
+  --ground:#FAF6F0; --surface:#FFFFFF; --ink:#2E2320; --ink-2:#6E5B55; --line:#E7DDD0;
+  --brown:#4F3834; --gold:#C9A96E; --gold-ink:#8A6A34; --on-brown:#FAF6F0;
+  --ok:#3F7A55; --ok-bg:#E6F0E8; --warn:#9A5B12; --warn-bg:#FBEEDB; --bad:#A23B2E; --bad-bg:#F8E3DF;
+  --muted-bg:#F1EBE2; --focus:#C9A96E;
+  --serif:"Playfair Display", "Noto Serif JP", Georgia, serif;
+  --sans:"Noto Sans JP", -apple-system, "Hiragino Sans", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#1C1513; --surface:#261D1A; --ink:#F2EAE0; --ink-2:#B9A89E; --line:#3A2E2A;
+    --brown:#3A2926; --gold:#D4B67E; --gold-ink:#D4B67E; --on-brown:#F2EAE0;
+    --ok:#8CC7A0; --ok-bg:#1F3326; --warn:#E8B872; --warn-bg:#3A2A14; --bad:#F09A8C; --bad-bg:#3B1E19;
+    --muted-bg:#2F2421;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#1C1513; --surface:#261D1A; --ink:#F2EAE0; --ink-2:#B9A89E; --line:#3A2E2A;
+  --brown:#3A2926; --gold:#D4B67E; --gold-ink:#D4B67E; --on-brown:#F2EAE0;
+  --ok:#8CC7A0; --ok-bg:#1F3326; --warn:#E8B872; --warn-bg:#3A2A14; --bad:#F09A8C; --bad-bg:#3B1E19;
+  --muted-bg:#2F2421;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;
+  padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink);font-weight:500}
+header h1{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.2;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0;color:var(--ink-2);font-size:13px}
+.device{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface);font-size:13px}
+.device b{font-weight:500}
+.device code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink-2)}
+.note{font-size:12px;color:var(--ink-2);margin:0}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.post-head{background:var(--brown);color:var(--on-brown);padding:14px 16px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.post-head .when{font-family:var(--serif);font-size:19px}
+.post-head .dl{font-size:12px;opacity:.85;font-variant-numeric:tabular-nums}
+.frame{aspect-ratio:4/5;width:100%;max-width:100%;background:var(--muted-bg);display:grid;place-items:center;color:var(--ink-2);font-size:13px}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;background:var(--muted-bg);color:var(--ink-2)}
+.chip.ok{background:var(--ok-bg);color:var(--ok)} .chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+label.lbl{font-size:12px;color:var(--ink-2);display:flex;justify-content:space-between;gap:8px}
+textarea{width:100%;min-height:260px;resize:vertical;font:inherit;font-size:15px;line-height:1.65;color:var(--ink);
+  background:var(--ground);border:1px solid var(--line);border-radius:10px;padding:12px}
+textarea[readonly]{background:var(--muted-bg)}
+.counts{font-variant-numeric:tabular-nums}
+.alert{font-size:13px;border-radius:8px;padding:9px 12px}
+.alert.bad{background:var(--bad-bg);color:var(--bad)} .alert.warn{background:var(--warn-bg);color:var(--warn)}
+.alert.ok{background:var(--ok-bg);color:var(--ok)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;font-size:15px;font-weight:500;border-radius:10px;padding:13px 14px;cursor:pointer;border:1px solid transparent;min-height:48px}
+button.primary{background:var(--brown);color:var(--on-brown);border-color:var(--brown)}
+:root[data-theme="dark"] button.primary{background:var(--gold);color:#1C1513;border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{background:var(--gold);color:#1C1513;border-color:var(--gold)}}
+button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+button.small{font-size:13px;padding:8px 12px;min-height:36px}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+details summary{cursor:pointer;color:var(--ink-2);font-size:13px}
+.empty{text-align:center;color:var(--ink-2);padding:28px 12px;border:1px dashed var(--line);border-radius:14px;font-size:14px}
+.hist{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.hist-row{display:flex;justify-content:space-between;gap:8px;font-size:13px;border-bottom:1px solid var(--line);padding-block:6px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">@coranboutiquespa · Instagram</div>
+    <h1>投稿の承認</h1>
+    <p>画像と本文を確かめて、本文だけ直せます。締切（投稿の2時間前）までに承認がなければ、その回は投稿しません。</p>
+  </header>
+
+  <section class="device" id="device" aria-live="polite">
+    <div><b>この端末の承認鍵</b><br><span id="devState">確認中…</span></div>
+    <button class="ghost small" id="devBtn" hidden>この端末を登録</button>
+  </section>
+
+  <main id="list" class="wrap" style="gap:20px">
+    <div class="empty" id="loading">読み込み中…</div>
+  </main>
+
+  <details id="histBox" hidden>
+    <summary>これまでの回</summary>
+    <div class="hist" id="hist"></div>
+  </details>
+
+  <p class="note">承認すると、この端末の中だけにある鍵で「画像・本文・投稿日時」に署名します。投稿の仕組みは署名を確かめてから投稿するので、画像や本文が承認後に変わると投稿されません。</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  // ---- 取り決め（src/approval.py と同じ。変えるときは両方と selftest を直す）
+  const HEADER = "CORAN-IG-APPROVAL/v1";
+  const BANNED = ["฿", "THB", "baht", "บาท", "バーツ", "円", "\\bUSD\\b", "\\$", "€", "元", "원", "\\d\\s*[%％]", "[%％]\\s*off\\b", "percent", "\\bdiscounts?\\b", "\\bcoupons?\\b", "\\bpromo(?:tion)?s?\\b", "\\bpromo\\s*codes?\\b", "\\bprices?\\b", "\\bpricing\\b", "\\bfree\\b", "\\boffers?\\b", "\\bsale\\b", "\\bvouchers?\\b", "\\b[A-Z]{3,}\\d{2,}\\b", "割引", "割引き", "クーポン", "料金", "価格", "値引", "セール", "半額", "無料", "お得", "折", "優惠", "优惠", "ส่วนลด", "คูปอง", "ราคา", "โปร", "ลด", "ฟรี", "할인", "쿠폰"];
+  const bannedRe = new RegExp(BANNED.join("|"), "gi");
+  const CAPTION_MAX = 2200, HASHTAG_MAX = 30;
+
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const normalize = (s) => (s || "").normalize("NFC").replace(/\r\n?/g, "\n").trim();
+  const bannedWords = (s) => { const out = []; for (const m of (s || "").matchAll(bannedRe)) if (!out.includes(m[0])) out.push(m[0]); return out; };
+  const hex = (buf) => Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+  const b64url = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const b64 = (buf) => { let s = ""; const u = new Uint8Array(buf); for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
+  const sha256 = async (bytes) => hex(await crypto.subtle.digest("SHA-256", bytes));
+  const fmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Bangkok", month: "numeric", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" });
+  const when = (iso) => fmt.format(new Date(iso));
+  const left = (iso) => { const ms = new Date(iso) - Date.now(); if (ms <= 0) return "締切を過ぎました"; const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return `あと ${h}時間${m}分`; };
+  const TYPE = { service: "施術", sanctuary: "店内", review: "お客様の声" };
+  const LAYOUT = { A: "写真全面", B: "お客様の声", C: "店内（額装）" };
+
+  function payload(p) {
+    const meta = `${p.post_type}|${p.seq}|${p.photo_file}|${p.review_key || ""}`;
+    return [HEADER, `slot=${p.slot}`, `decision=${p.decision}`, `image_sha256=${p.image_sha256}`,
+      `caption_sha256=${p.caption_sha256}`, `meta=${meta}`, `signed_at=${p.signed_at}`].join("\n");
+  }
+
+  // ---- 端末の鍵（IndexedDB。秘密鍵は取り出し不可）
+  let device = null, uid = null, db = null, registry = [];
+  function idb() {
+    return new Promise((res, rej) => {
+      let r; try { r = indexedDB.open("coran-ig-approval", 1); } catch (e) { rej(e); return; }
+      r.onupgradeneeded = () => r.result.createObjectStore("keys");
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    });
+  }
+  async function idbGet(k) { const d = await idb(); return new Promise((res, rej) => { const t = d.transaction("keys").objectStore("keys").get(k); t.onsuccess = () => res(t.result || null); t.onerror = () => rej(t.error); }); }
+  async function idbPut(k, v) { const d = await idb(); return new Promise((res, rej) => { const t = d.transaction("keys", "readwrite").objectStore("keys").put(v, k); t.onsuccess = () => res(); t.onerror = () => rej(t.error); }); }
+
+  async function loadDevice() {
+    try { device = await idbGet("device"); } catch (e) { device = null; }
+    renderDevice();
+  }
+  async function enroll() {
+    const btn = $("devBtn"); btn.disabled = true;
+    try {
+      const kp = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false /* 取り出し不可 */, ["sign", "verify"]);
+      const spkiBuf = await crypto.subtle.exportKey("spki", kp.publicKey);
+      const spki = b64(spkiBuf), fp = (await sha256(spkiBuf)).slice(0, 16);
+      await idbPut("device", { privateKey: kp.privateKey, publicKey: kp.publicKey, spki, fp, created: new Date().toISOString() });
+      device = await idbGet("device");
+      if (!device) throw new Error("この端末に鍵を保存できませんでした");
+      if (db) await db.doc("devices/" + fp).set({ fp, spki, created_at: device.created, by: uid || null, ua: navigator.userAgent.slice(0, 120) });
+    } catch (e) {
+      $("devState").textContent = "登録できませんでした：" + (e && e.message || e) + "。別のブラウザか Claude アプリで開き直してください。";
+    }
+    btn.disabled = false; renderDevice(); renderAll();
+  }
+  function renderDevice() {
+    const s = $("devState"), b = $("devBtn");
+    if (!window.crypto || !crypto.subtle) { s.textContent = "この画面では署名が使えません（承認できません）"; b.hidden = true; return; }
+    if (!device) { s.textContent = "未登録。承認するには、まずこの端末を登録します。"; b.hidden = false; return; }
+    b.hidden = true;
+    const onGitHub = registry.includes(device.fp);
+    s.textContent = "";
+    s.append(onGitHub ? "登録済み" : "登録済み（投稿の仕組みへの登録待ち）", " ", el("code", null, device.fp));
+  }
+  $("devBtn").addEventListener("click", enroll);
+
+  // ---- 候補
+  const images = new Map();   // slot → {dataUrl, sha, ok}
+  const drafts = new Map();   // slot → 直している途中の本文（再描画で消さない）
+  let posts = [];
+
+  async function loadImage(p) {
+    if (images.has(p.slot + p.image_sha256)) return images.get(p.slot + p.image_sha256);
+    const snap = await db.collection("posts/" + p.slot + "/img").get();
+    const parts = snap.docs.map((d) => d.data()).filter(Boolean).sort((a, b) => a.i - b.i);
+    const b64s = parts.map((x) => x.b64 || "").join("");
+    let info;
+    try {
+      const bin = atob(b64s); const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const sha = await sha256(bytes);
+      info = { dataUrl: "data:image/jpeg;base64," + b64s, sha, ok: parts.length === p.image_chunks && sha === p.image_sha256 };
+    } catch (e) { info = { dataUrl: null, sha: null, ok: false }; }
+    images.set(p.slot + p.image_sha256, info);
+    return info;
+  }
+
+  function statusOf(p) {
+    if (p.status === "posted") return ["投稿済み", "ok"];
+    if (p.status === "relayed") return ["承認済み・投稿待ち", "ok"];
+    if (p.decision === "approve") return ["承認済み", "ok"];
+    if (p.decision === "decline") return ["見送り", "bad"];
+    if (new Date(p.deadline) <= Date.now()) return ["締切切れ（投稿なし）", "bad"];
+    return ["承認待ち", "warn"];
+  }
+
+  function card(p) {
+    const [stText, stCls] = statusOf(p);
+    const open = !p.decision && new Date(p.deadline) > Date.now();
+    const box = el("article", "post"); box.id = "post-" + p.slot;
+    const head = el("div", "post-head");
+    head.append(el("span", "when", when(p.slot_at) + " 投稿"), el("span", "dl", "締切 " + when(p.deadline) + (open ? "（" + left(p.deadline) + "）" : "")));
+    const frame = el("div", "frame", "画像を読み込み中…");
+    const body = el("div", "body");
+    const meta = el("div", "meta");
+    meta.append(el("span", "chip " + stCls, stText), el("span", "chip", TYPE[p.post_type] || p.post_type), el("span", "chip", LAYOUT[p.layout] || "CORAN Frame"));
+    if (p.trial) meta.append(el("span", "chip warn", "お試し（この回は投稿されません）"));
+    const lbl = el("label", "lbl"); lbl.htmlFor = "cap-" + p.slot;
+    const counts = el("span", "counts");
+    lbl.append(el("span", null, open ? "本文（直せます）" : "本文"), counts);
+    const ta = el("textarea"); ta.id = "cap-" + p.slot;
+    ta.value = p.decision ? (p.caption_final || p.caption_draft) : (drafts.has(p.slot) ? drafts.get(p.slot) : (p.caption_draft || ""));
+    ta.readOnly = !open;
+    const alert = el("div", "alert"); alert.hidden = true;
+    body.append(meta, lbl, ta, alert);
+
+    let imgOk = false;
+    const update = () => {
+      const t = normalize(ta.value), bad = bannedWords(t), tags = (t.match(/#/g) || []).length;
+      counts.textContent = `${t.length} / ${CAPTION_MAX}字 · タグ ${tags}`;
+      let msg = null, cls = "bad";
+      if (!imgOk) msg = "画像が確かめられません。承認できません。";
+      else if (bad.length) msg = "価格・割引・販促の語は入れられません：" + bad.join("、");
+      else if (!t) msg = "本文が空です。";
+      else if (t.length > CAPTION_MAX) msg = CAPTION_MAX + "字を超えています。";
+      else if (tags > HASHTAG_MAX) msg = "ハッシュタグは" + HASHTAG_MAX + "個までです。";
+      else if (open && !device) { msg = "承認するには、上で端末を登録してください。"; cls = "warn"; }
+      alert.hidden = !msg; alert.className = "alert " + cls; alert.textContent = msg || "";
+      if (approveBtn) approveBtn.disabled = !!msg;
+    };
+
+    let approveBtn = null;
+    if (open) {
+      const acts = el("div", "actions");
+      approveBtn = el("button", "primary", "承認する"); approveBtn.id = "ok-" + p.slot;
+      const skipBtn = el("button", "ghost", "見送る"); skipBtn.id = "skip-" + p.slot;
+      approveBtn.addEventListener("click", () => decide(p, "approve", ta, [approveBtn, skipBtn], alert));
+      skipBtn.addEventListener("click", () => decide(p, "decline", ta, [approveBtn, skipBtn], alert));
+      acts.append(approveBtn, skipBtn); body.append(acts);
+      ta.addEventListener("input", () => { drafts.set(p.slot, ta.value); update(); });
+    } else if (p.decision && new Date(p.deadline) > Date.now() && p.status !== "relayed" && p.status !== "posted") {
+      const redo = el("button", "ghost small", "取り消して直す"); redo.id = "redo-" + p.slot;
+      redo.addEventListener("click", async () => {
+        redo.disabled = true;
+        try { await db.doc("posts/" + p.slot).update({ decision: null, status: "pending", sig: null, signed_at: null, caption_sha256: null }); }
+        catch (e) { redo.disabled = false; }
+      });
+      body.append(redo);
+    }
+    box.append(head, frame, body);
+
+    loadImage(p).then((info) => {
+      imgOk = info.ok;
+      frame.textContent = "";
+      if (info.dataUrl) { const im = el("img"); im.alt = "投稿する画像（CORAN Frame）"; im.src = info.dataUrl; frame.append(im); }
+      if (!info.ok) frame.append(el("div", "alert bad", "画像が候補の記録と一致しません"));
+      update();
+    }).catch(() => { frame.textContent = "画像を読み込めませんでした"; update(); });
+    update();
+    return box;
+  }
+
+  async function decide(p, decision, ta, buttons, alert) {
+    buttons.forEach((b) => b.disabled = true);
+    try {
+      if (new Date(p.deadline) <= Date.now()) throw new Error("締切を過ぎています");
+      if (!device) throw new Error("この端末が未登録です");
+      const info = await loadImage(p);
+      if (!info.ok) throw new Error("画像が確かめられません");
+      const caption = normalize(ta.value);
+      if (decision === "approve") {
+        const bad = bannedWords(caption);
+        if (bad.length) throw new Error("価格・割引・販促の語：" + bad.join("、"));
+        if (!caption || caption.length > CAPTION_MAX) throw new Error("本文の長さが不正です");
+      }
+      const rec = {
+        slot: p.slot, decision, image_sha256: info.sha, post_type: p.post_type, seq: p.seq,
+        photo_file: p.photo_file, review_key: p.review_key || null,
+        caption_sha256: await sha256(new TextEncoder().encode(caption)),
+        signed_at: new Date().toISOString(),
+      };
+      const sig = await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, device.privateKey, new TextEncoder().encode(payload(rec)));
+      await db.doc("posts/" + p.slot).update({
+        decision, caption_final: caption, caption_sha256: rec.caption_sha256, signed_at: rec.signed_at,
+        sig: b64url(sig), key_fp: device.fp, decided_by: uid || null,
+        status: decision === "approve" ? "approved" : "declined",
+      });
+      drafts.delete(p.slot);
+      alert.hidden = false; alert.className = "alert ok";
+      alert.textContent = decision === "approve" ? "承認しました。締切のあと投稿の準備に回ります。" : "見送りにしました。この回は投稿しません。";
+    } catch (e) {
+      alert.hidden = false; alert.className = "alert bad"; alert.textContent = "できませんでした：" + (e && e.message || e);
+      buttons.forEach((b) => b.disabled = false);
+    }
+  }
+
+  function renderAll() {
+    const list = $("list"); list.textContent = "";
+    const now = Date.now();
+    const current = posts.filter((p) => new Date(p.slot_at).getTime() + 10 * 3600000 > now);
+    const past = posts.filter((p) => !current.includes(p));
+    if (!current.length) list.append(el("div", "empty", "いま承認を待っている投稿はありません。次の候補は投稿の24時間前に届きます。"));
+    current.sort((a, b) => a.slot.localeCompare(b.slot)).forEach((p) => list.append(card(p)));
+    const hist = $("hist"); hist.textContent = "";
+    past.forEach((p) => { const r = el("div", "hist-row"); r.append(el("span", null, when(p.slot_at)), el("span", null, statusOf(p)[0])); hist.append(r); });
+    $("histBox").hidden = !past.length;
+  }
+
+  async function start() {
+    loadDevice();
+    const [dbNs, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+    const owner = user ? await user.isOwner() : false;
+    if (!dbNs || !owner) {
+      $("loading").textContent = dbNs ? "このページは承認者専用です。" : "データに接続できません。Claude で開き直してください。";
+      return;
+    }
+    db = dbNs; uid = await user.id();
+    db.doc("meta/registry").onSnapshot((s) => { registry = (s.exists && s.data().fps) || []; renderDevice(); }, () => {});
+    db.collection("posts").orderBy("slot", "desc").limit(12).onSnapshot((snap) => {
+      posts = snap.docs.map((d) => d.data()).filter((p) => p && p.slot && p.slot_at && p.deadline);
+      renderAll();
+    }, () => { $("list").textContent = ""; $("list").append(el("div", "empty", "読み込みが止まりました。開き直してください。")); });
+    setInterval(() => { if (!document.activeElement || document.activeElement.tagName !== "TEXTAREA") renderAll(); }, 60000);
+  }
+  if (window.claude && claude.use) start(); else $("loading").textContent = "Claude の中で開いてください。";
+})();
+</script>

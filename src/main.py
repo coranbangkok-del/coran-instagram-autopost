@@ -1,13 +1,18 @@
 """
 エントリポイント。2モードで動く。
 
-  python src/main.py prepare   … 投稿候補（写真+文章）を作って candidate.json に出力 + 承認用サマリ表示
-  python src/main.py publish   … 承認後に実際に Instagram へ投稿し、使用済み状態を更新
+  通常投稿（2026-09-22〜 スマホ承認）
+  python src/main.py make-candidate --slot YYYYMMDD-HHMM --out DIR  … ルーティンが候補を作る（送信なし）
+  python src/main.py relay --doc post.json --queue-root DIR          … 署名つき承認を ig-queue 用に書く
+  python src/main.py publish-approved --queue-root DIR --queue-sha SHA [--dry-run]
+                                                                     … post.yml。検証に通ったときだけ投稿
 
-GitHub Actions では prepare → (人間の承認ゲート) → publish の順で2ジョブに分かれる。
+  旧経路（スポット告知 post-spot.yml が使う・既定 OFF）
+  python src/main.py prepare / publish
 """
 import json
 import os
+import re
 import sys
 
 import config
@@ -163,17 +168,12 @@ def prepare():
     caption_kind = "review" if post_type == "review" else "service"
     text = caption_ai.build_caption(caption_kind, photo, review)
 
-    image_url, generated_file, layout = source_url, None, None
-    if config.BRAND_IMAGE == "on":
-        eyebrow = brandimage.meta_for(photo)[0]
-        headline = caption_ai.build_image_headline(caption_kind, photo, review, eyebrow)
-        url, rel, lay = brandimage.build(post_type, photo, review, headline)
-        if url:
-            image_url, generated_file, layout = url, rel, lay
-        else:
-            print("[PREPARE] ブランド画像を作れなかったため、素材をそのまま使います。")
-    else:
-        print("[PREPARE] BRAND_IMAGE=off のため素材をそのまま使います。")
+    # 画像は必ず CORAN Frame を通す（2026-09-22 社長指示）。作れなければ候補を作らない。
+    eyebrow = brandimage.meta_for(photo)[0]
+    headline = caption_ai.build_image_headline(caption_kind, photo, review, eyebrow)
+    image_url, generated_file, layout = brandimage.build(post_type, photo, review, headline)
+    if not image_url:
+        raise SystemExit("[PREPARE] CORAN Frame の画像を作れなかったため、この回の候補は作りません。")
 
     candidate = {
         "post_type": post_type,
@@ -227,11 +227,19 @@ def prepare_spot():
     if hashtags:
         caption = caption + "\n\n" + " ".join(hashtags)
 
-    photo, image_url = photo_picker.pick_photo(preferred_tags=["service", "treatment", "ambience"])
+    photo, _source_url = photo_picker.pick_photo(preferred_tags=["service", "treatment", "ambience"])
+    # スポット告知も素材そのままは出さない（CORAN Frame 必須）。作れなければ告知なし。
+    image_url, generated_file, layout = brandimage.build("service", photo, None, None)
+    if not image_url:
+        print("[SPOT] CORAN Frame の画像を作れなかったためスキップ。")
+        _set_output("has_candidate", "false")
+        return
     candidate = {
         "post_type": "spot",
         "spot": True,
         "photo_file": photo["file"],
+        "generated_file": generated_file,
+        "layout": layout,
         "image_url": image_url,
         "caption": caption,
         "review_key": None,
@@ -332,8 +340,249 @@ def publish():
                {"last": candidate["post_type"], "seq": candidate.get("seq", 0)})
 
 
+# =====================================================================
+# スマホ承認（Claude の非公開 Artifact）経路  2026-09-22〜
+#   make-candidate   … ルーティンが候補（画像＋本文の下書き）を作る。IG には何も送らない
+#   relay            … ルーティンが db の署名つき承認を queue/<slot>/approval.json にする
+#   publish-approved … post.yml。署名つき承認を検証し、通ったときだけ投稿する
+# =====================================================================
+import approval  # noqa: E402
+
+CHUNK_CHARS = 180_000   # db の1文書は 256KiB まで。画像の base64 をこの長さで分ける
+
+
+def make_candidate(slot, out_dir, caption_file=None, headline_en=None, headline_ja=None, trial=False):
+    """投稿枠 slot の候補を out_dir に作る。戻り値は db に入れる候補文書（dict）。
+
+    out_dir/image.jpg          … CORAN Frame の画像（ig-queue の queue/<slot>/image.jpg に置く）
+    out_dir/post.json          … db の posts/<slot> に set する文書（本文の下書きを含む＝repo に置かない）
+    out_dir/chunks/NN.json     … db の posts/<slot>/img/NN に set する画像の断片
+    """
+    import base64
+    import datetime as dt
+
+    slot_dt = approval.parse_slot(slot)
+    if slot_dt is None:
+        raise SystemExit(f"[CANDIDATE] 投稿枠ではありません: {slot}（火 19:00／金 11:00 BKK のみ）")
+
+    post_type, seq = _next_post_type()
+    review = None
+    if post_type == "review":
+        good = reviews_mod.fetch_reviews()
+        used_state = _load_json(config.USED_STATE_PATH, {"cycle": [], "history": [], "reviews": []})
+        review = reviews_mod.pick_unused_review(good, set(used_state.get("reviews", [])))
+        if not review:
+            print("[CANDIDATE] 使えるレビューが無いため sanctuary 投稿に切り替えます。")
+            post_type = "sanctuary"
+    PREFER = {"review": ["interior"], "sanctuary": ["sanctuary"],
+              "service": ["service", "treatment", "ambience"]}
+    photo, _src = photo_picker.pick_photo(preferred_tags=PREFER[post_type])
+    caption_kind = "review" if post_type == "review" else "service"
+
+    # 本文：ルーティン（Claude）が書いたものを優先。無ければ caption_ai（API かテンプレ）。
+    if caption_file:
+        with open(caption_file, encoding="utf-8") as f:
+            text = approval.normalize_caption(f.read())
+        bad = approval.banned_words(text)
+        if bad:
+            raise SystemExit(f"[CANDIDATE] 本文に価格・割引・販促の語があります: {bad}。書き直してください。")
+    else:
+        text = approval.normalize_caption(caption_ai.build_caption(caption_kind, photo, review))
+        if approval.banned_words(text):
+            print("[CANDIDATE] 生成本文に禁止語 → テンプレートに差し替え")
+            text = approval.normalize_caption(caption_ai._fallback(caption_kind, photo, review))
+        bad = approval.banned_words(text)
+        if bad:
+            raise SystemExit(f"[CANDIDATE] テンプレートにも禁止語: {bad}")
+
+    if headline_en or headline_ja:
+        headline = (headline_en or "", headline_ja or "")
+    else:
+        eyebrow = brandimage.meta_for(photo)[0]
+        headline = caption_ai.build_image_headline(caption_kind, photo, review, eyebrow)
+
+    # 画像は必ず CORAN Frame。失敗したら候補を作らない（素材そのままへは倒さない）。
+    try:
+        img, layout = brandimage.render(post_type, photo, review, headline)
+    except Exception as e:
+        raise SystemExit(f"[CANDIDATE] CORAN Frame の画像を作れませんでした: {type(e).__name__}: {e}")
+    if img.size != approval.IMAGE_SIZE:
+        raise SystemExit(f"[CANDIDATE] 画像の大きさが規定外: {img.size}")
+
+    os.makedirs(os.path.join(out_dir, "chunks"), exist_ok=True)
+    img_path = os.path.join(out_dir, "image.jpg")
+    img.convert("RGB").save(img_path, "JPEG", quality=90, optimize=True, subsampling=1)
+    data = open(img_path, "rb").read()
+    b64 = base64.b64encode(data).decode("ascii")
+    chunks = [b64[i:i + CHUNK_CHARS] for i in range(0, len(b64), CHUNK_CHARS)]
+    for i, c in enumerate(chunks):
+        _save_json(os.path.join(out_dir, "chunks", f"{i:02d}.json"), {"i": i, "b64": c})
+
+    now = dt.datetime.now(dt.timezone.utc)
+    doc = {
+        "slot": slot,
+        "slot_at": slot_dt.isoformat(),
+        "deadline": approval.deadline_of(slot_dt).isoformat(),
+        "created_at": now.isoformat(timespec="seconds"),
+        "status": "pending",
+        "post_type": post_type,
+        "seq": seq,
+        "layout": layout,
+        "photo_file": photo["file"],
+        "review_key": (review["text"][:60] if review else None),
+        "caption_draft": text,
+        "image_sha256": approval.sha256_hex(data),
+        "image_bytes": len(data),
+        "image_chunks": len(chunks),
+        "image_path": f"queue/{slot}/image.jpg",
+    }
+    if trial:
+        doc["trial"] = True   # お試し（ページの操作確認用）。relay が必ず断る
+    _save_json(os.path.join(out_dir, "post.json"), doc)
+    print(f"[CANDIDATE] {slot} {post_type} layout={layout} {photo['file']} "
+          f"image={len(data)//1024}KB chunks={len(chunks)} sha={doc['image_sha256'][:12]}")
+    return doc
+
+
+def relay(doc_path, queue_root, now=None):
+    """db から読んだ posts/<slot> 文書を、ig-queue の承認記録にする。
+
+    承認でない・締切後・本文の禁止語・画像の不一致なら何も書かない（戻り値 False）。
+    署名はここでは（鍵があれば）確かめるだけ。最終の判定は post.yml の publish-approved。
+    """
+    import datetime as dt
+    doc = _load_json(doc_path, None)
+    if not isinstance(doc, dict) or not doc.get("slot"):
+        print("[RELAY] 文書が読めません。")
+        return False
+    slot = doc["slot"]
+    slot_dt = approval.parse_slot(slot)
+    if slot_dt is None:
+        print(f"[RELAY] 投稿枠ではありません: {slot}")
+        return False
+    if doc.get("trial"):
+        print(f"[RELAY] {slot}: お試しの候補なので送りません")
+        return False
+    if doc.get("decision") != "approve":
+        print(f"[RELAY] {slot}: 承認されていません（decision={doc.get('decision')}）→ 見送り")
+        return False
+    rec = approval.build_record(doc, f"queue/{slot}/image.jpg")
+    img_file = os.path.join(queue_root, rec["image_path"])
+    image_bytes = open(img_file, "rb").read() if os.path.exists(img_file) else None
+    pub = approval.parse_pubkeys(config.IG_APPROVER_PUBKEYS)
+    # 事前確認は「枠の時刻に投稿する」前提で行う（締切と署名時刻の関係を確かめる）
+    ok, why = approval.verify(rec, pubkeys=pub, now=slot_dt, image_bytes=image_bytes,
+                              posted_slots=_load_json(config.POSTED_SLOTS_PATH, []),
+                              require_signature=bool(pub))
+    now = now or dt.datetime.now(dt.timezone.utc)
+    if not ok:
+        print(f"[RELAY] {slot}: 送らない — {why}")
+        return False
+    out = os.path.join(queue_root, "queue", slot, "approval.json")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(approval.dumps(rec))
+    print(f"[RELAY] {slot}: 承認記録を書きました（{why}）relayed_at={now.isoformat(timespec='seconds')}")
+    return True
+
+
+def publish_approved(queue_root, queue_sha, dry_run=False, now=None, post_fn=None):
+    """post.yml から呼ぶ。いま投稿してよい枠の署名つき承認を検証し、通れば投稿する。
+
+    戻り値: 投稿した（dry_run なら投稿できる）枠の id、無ければ None。
+    承認が無い・検証に落ちたときは例外にせず None（＝その回は投稿なし）。
+    """
+    import datetime as dt
+    now = now or dt.datetime.now(dt.timezone.utc)
+    if not re.fullmatch(r"[0-9a-f]{40}", queue_sha or ""):
+        _append_summary("\n**投稿なし:** ig-queue の commit が特定できません。\n")
+        _set_output("has_approval", "false")
+        return None
+    pub = approval.parse_pubkeys(config.IG_APPROVER_PUBKEYS)
+    posted = _load_json(config.POSTED_SLOTS_PATH, [])
+    reasons = []
+    for slot_dt in approval.open_slots(now):
+        slot = approval.slot_id(slot_dt)
+        path = os.path.join(queue_root, "queue", slot, "approval.json")
+        try:
+            rec = _load_json(path, None) if os.path.exists(path) else None
+        except (ValueError, UnicodeDecodeError):
+            reasons.append(f"{slot}: 承認記録が壊れている")
+            continue
+        if rec is None:
+            reasons.append(f"{slot}: 承認記録なし（社長の承認が無い／締切切れ）")
+            continue
+        if not isinstance(rec, dict):
+            reasons.append(f"{slot}: 承認記録が JSON オブジェクトではない")
+            continue
+        expected = f"queue/{slot}/image.jpg"
+        img_file = os.path.join(queue_root, expected)
+        image_bytes = (open(img_file, "rb").read()
+                       if rec.get("image_path") == expected and os.path.isfile(img_file) else None)
+        ok, why = approval.verify(rec, pubkeys=pub, now=now, image_bytes=image_bytes, posted_slots=posted)
+        if rec.get("slot") != slot:
+            ok, why = False, "承認記録の slot が置き場所と違う"
+        if not ok:
+            reasons.append(f"{slot}: {why}")
+            continue
+
+        if dry_run:
+            _append_summary(f"\n## 投稿できる承認あり: {slot}\n\n```\n{rec['caption']}\n```\n")
+            _set_output("has_approval", "true")
+            _set_output("slot", slot)
+            return slot
+
+        repo = os.environ.get("GITHUB_REPOSITORY", "").strip()
+        if not re.fullmatch(r"[\w.-]+/[\w.-]+", repo):
+            reasons.append(f"{slot}: GITHUB_REPOSITORY が無い")
+            break
+        # commit を固定した URL＝検証したバイト列と IG が取りに来るバイト列が同じ（差し替え不可）
+        image_url = f"https://raw.githubusercontent.com/{repo}/{queue_sha}/{rec['image_path']}"
+        if post_fn is None:
+            import instagram
+            post_fn = instagram.post_image
+        media_id = post_fn(image_url, rec["caption"])
+        print(f"[PUBLISH] 投稿成功 slot={slot} media_id={media_id}")
+
+        manifest = photo_picker.load_manifest()
+        photo = next((p for p in manifest if p["file"] == rec["photo_file"]), {"file": rec["photo_file"]})
+        photo_picker.mark_used(photo)
+        if rec.get("review_key"):
+            used_state = _load_json(config.USED_STATE_PATH, {"cycle": [], "history": [], "reviews": []})
+            used_state.setdefault("reviews", []).append(rec["review_key"])
+            _save_json(config.USED_STATE_PATH, used_state)
+        _save_json(config.ROTATION_STATE_PATH, {"last": rec["post_type"], "seq": rec["seq"]})
+        _save_json(config.POSTED_SLOTS_PATH, (posted + [slot])[-200:])
+        _append_summary(f"\n## 投稿しました: {slot}\n")
+        _set_output("has_approval", "true")
+        return slot
+
+    _append_summary("\n## 投稿なし（fail-closed）\n\n" + "\n".join(f"- {r}" for r in reasons or ["いま投稿してよい枠がありません"]) + "\n")
+    _set_output("has_approval", "false")
+    return None
+
+
+def _arg(name, default=None):
+    if name in sys.argv:
+        i = sys.argv.index(name)
+        if i + 1 < len(sys.argv):
+            return sys.argv[i + 1]
+    return default
+
+
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
+    if mode == "make-candidate":
+        make_candidate(_arg("--slot") or approval.slot_id(approval.next_slot()), _arg("--out", "candidate_out"),
+                       caption_file=_arg("--caption-file"), headline_en=_arg("--headline-en"),
+                       headline_ja=_arg("--headline-ja"), trial="--trial" in sys.argv)
+        sys.exit(0)
+    if mode == "relay":
+        ok = relay(_arg("--doc"), _arg("--queue-root", "."))
+        sys.exit(0 if ok else 3)
+    if mode == "publish-approved":
+        publish_approved(_arg("--queue-root", "_queue"), _arg("--queue-sha"), dry_run="--dry-run" in sys.argv)
+        sys.exit(0)
     if mode == "prepare":
         prepare()
     elif mode == "prepare-spot":
@@ -345,4 +594,4 @@ if __name__ == "__main__":
     elif mode == "publish":
         publish()
     else:
-        raise SystemExit("使い方: python src/main.py [prepare|prepare-spot|prepare-gbp|publish|publish-gbp]")
+        raise SystemExit("使い方: python src/main.py [make-candidate|relay|publish-approved|prepare|prepare-spot|prepare-gbp|publish|publish-gbp]")

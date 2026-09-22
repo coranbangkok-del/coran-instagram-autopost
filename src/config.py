@@ -51,9 +51,14 @@ GBP_LOCATION = _optional("GBP_LOCATION")             # 例: locations/9876543210
 GBP_LANG = _optional("GBP_LANG", "en")               # 投稿言語（GBP投稿は単一言語）
 
 # --- 画像のブランド化（CORAN Frame）---
-#   既定はON。素材をそのまま投げず、4:5(1080x1350)のCORANの画に変換してから投稿する。
-#   不具合時は Secrets/変数に BRAND_IMAGE=off を入れれば従来どおり素材をそのまま使う。
-BRAND_IMAGE = (_optional("BRAND_IMAGE", "on") or "on").lower()
+#   画像は必ず CORAN Frame（4:5・1080x1350）を通す。2026-09-22 社長指示で「素材そのまま」の
+#   経路（旧 BRAND_IMAGE=off）は撤去した。生成に失敗したら、その回は候補を作らない。
+
+# --- スマホ承認（Claude の非公開 Artifact・2026-09-22〜）---
+#   社長の端末の公開鍵（SPKI の base64・改行かカンマ区切り）。GitHub の Actions 変数に置く。
+#   未設定なら投稿しない（fail-closed）。
+IG_APPROVER_PUBKEYS = _optional("IG_APPROVER_PUBKEYS")
+QUEUE_BRANCH = "ig-queue"   # 承認待ちの画像と署名つき承認を置くブランチ（main には置かない）
 
 # --- パス ---
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -68,3 +73,4 @@ MARK_PATH = os.path.join(ASSETS_DIR, "coran-mark.png")
 GENERATED_DIR = os.path.join(IMAGES_DIR, "generated")
 CANDIDATE_PATH = os.path.join(ROOT, "candidate.json")
 GBP_CANDIDATE_PATH = os.path.join(ROOT, "gbp_candidate.json")
+POSTED_SLOTS_PATH = os.path.join(STATE_DIR, "posted_slots.json")

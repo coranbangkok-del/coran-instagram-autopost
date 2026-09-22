@@ -30,7 +30,7 @@ SERVICE_OPENERS_JA = [
 SERVICE_CLOSERS = [
     "Book your moment — link in bio.",
     "Reserve via LINE or our website. ご予約はLINE・サイトから。",
-    "DMでもご予約承ります。Feel free to DM us.",
+    "DMでもご予約承ります。Our DMs are always open.",  # "free" は価格語の検査に掛かるので使わない
 ]
 
 # レビュー投稿の導入

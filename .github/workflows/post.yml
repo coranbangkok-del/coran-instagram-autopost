@@ -3,88 +3,89 @@ name: CORAN Instagram Auto-Post
 # 週2回・曜日と時刻を分散（機械的パターン回避）
 #   火 19:00 ICT (= 12:00 UTC)
 #   金 11:00 ICT (= 04:00 UTC)
+#
+# 2026-09-22〜 スマホ承認（社長が Claude の非公開ページで確認・本文修正・承認）。
+#   候補（CORAN Frame の画像＋本文の下書き）は投稿の24時間前にパープルのルーティンが作り、
+#   承認の締切は投稿の2時間前。社長の端末の鍵で署名された承認だけが
+#   ig-queue ブランチの queue/<slot>/approval.json に置かれる。
+#   ここでは署名・画像のハッシュ・本文のハッシュ・締切・価格語を確かめ、全部通ったときだけ投稿する。
+#   承認が無い回は投稿しない（fail-closed・失敗扱いにはしない）。
+#   公開鍵は Actions 変数 IG_APPROVER_PUBKEYS（未設定なら投稿しない）。
 on:
   schedule:
     - cron: "0 12 * * 2"
     - cron: "0 4 * * 5"
-  workflow_dispatch: {}   # 手動実行も可能
+  workflow_dispatch: {}   # 手動実行も可能（同じ検証を通る。承認が無ければ投稿しない）
 
 permissions:
   contents: write          # state/ をコミットして戻すため
 
-# 承認待ちの候補は常に最新の1件だけにする。
-#   次の候補が作られた時点で、承認されなかった古い実行は自動で取り消す
-#   （放置すると30日後に「失敗」になり、候補ファイルは7日で消えるので承認しても投稿できない）。
 concurrency:
   group: ig-auto-post
-  cancel-in-progress: true
+  cancel-in-progress: false   # 投稿の途中で取り消さない（二重投稿も posted_slots で防ぐ）
 
 jobs:
-  prepare:
-    name: 投稿候補を作成
+  check:
+    name: 社長の承認を確かめる
     runs-on: ubuntu-latest
+    outputs:
+      has_approval: ${{ steps.verify.outputs.has_approval }}
+      queue_sha: ${{ steps.queue.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch ig-queue (approved images + signed approvals)
+        id: queue
+        run: |
+          if git ls-remote --exit-code --heads origin ig-queue >/dev/null; then
+            git fetch --depth=1 origin ig-queue
+            sha="$(git rev-parse FETCH_HEAD)"
+            git worktree add --detach _queue "$sha"
+            echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          else
+            echo "ig-queue ブランチが無い＝承認なし"
+            mkdir -p _queue
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Prepare candidate
+      - name: Verify signed approval (no posting here)
+        id: verify
         env:
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
-          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}
-          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
-          LINE_TO_USER_ID: ${{ secrets.LINE_TO_USER_ID }}
-        run: python src/main.py prepare
-      # 生成したブランド画像を main へ戻す。Instagram は公開URLから画像を取得するため、
-      # 承認より前に raw URL が引ける状態にしておく必要がある（承認画面のプレビューも同じURL）。
-      # 副次効果: 承認されなくても毎回コミットが入るので「60日無活動で cron 無効化」に戻らない。
-      - name: Commit generated image
-        run: |
-          git config user.name "coran-autopost-bot"
-          git config user.email "bot@coran.local"
-          git add -A images/generated
-          if git diff --cached --quiet; then
-            echo "生成画像に変更なし（BRAND_IMAGE=off か生成失敗）"
-          else
-            git commit -m "chore: brand image for next post [skip ci]"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
-      - name: Upload candidate
-        uses: actions/upload-artifact@v4
-        with:
-          name: candidate
-          path: candidate.json
-          retention-days: 7
+          IG_USER_ID: "check-only"
+          IG_ACCESS_TOKEN: "check-only"
+          IMAGE_BASE_URL: "https://raw.githubusercontent.com/${{ github.repository }}/main/images"
+          IG_APPROVER_PUBKEYS: ${{ vars.IG_APPROVER_PUBKEYS }}
+        run: python src/main.py publish-approved --queue-root _queue --queue-sha "${{ steps.queue.outputs.sha }}" --dry-run
 
   publish:
-    name: 承認後に投稿
-    needs: prepare
+    name: 承認済みの1件を投稿
+    needs: check
+    if: needs.check.outputs.has_approval == 'true'
     runs-on: ubuntu-latest
-    # ▼ 承認ゲート：production 環境に「必須レビュアー＝あなた」を設定する。
-    #   承認するまでこのジョブは止まり、却下すれば投稿されない。
+    # production 環境の必須レビュアー設定が残っている間は、ここで GitHub の Approve も要る（二重の関門）。
+    # 社長が必須レビュアーを外すと Claude のページの承認だけで投稿される（決裁 GO-2）。
     environment: production
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the same ig-queue commit that was checked
+        run: |
+          git fetch --depth=1 origin "${{ needs.check.outputs.queue_sha }}"
+          git worktree add --detach _queue "${{ needs.check.outputs.queue_sha }}"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Download candidate
-        uses: actions/download-artifact@v4
-        with:
-          name: candidate
-      - name: Publish to Instagram
+      - name: Verify again and publish to Instagram
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
-        run: python src/main.py publish
+          IG_APPROVER_PUBKEYS: ${{ vars.IG_APPROVER_PUBKEYS }}
+        run: python src/main.py publish-approved --queue-root _queue --queue-sha "${{ needs.check.outputs.queue_sha }}"
       - name: Commit updated state
         run: |
           git config user.name "coran-autopost-bot"
