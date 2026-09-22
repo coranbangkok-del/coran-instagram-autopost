@@ -50,7 +50,6 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BRANCH: ${{ github.head_ref || github.ref_name }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
@@ -104,6 +103,9 @@ jobs:
 
       - name: PR を用意してマージ
         if: env.SKIP != '1'
+        # 書き込みできるトークンはこのステップだけに渡す（依存の導入や画像処理のステップには見せない＝gray 再レビュー条件1）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           if [ "${GITHUB_EVENT_NAME}" = "pull_request_target" ]; then
