@@ -197,8 +197,15 @@ def prepare_spot():
     予約バックエンドの /api/spot-announcement?channel=sns から投稿可能キャプションを取得。
     空きが無い/フラグOFF/失敗のときは候補を作らない（has_candidate=false → publish はスキップ）。
     ★通常の review/service ローテとシャッフルバッグは乱さない（candidate に spot:true）。
+
+    2026-09-23 停止: この経路は post.yml の週2回（社長承認）とは別に毎日走り、production の
+    Approve だけで IG へ出てしまう。9/20・9/22 に承認枠の外で公開されたため、署名つきの
+    スマホ承認（publish-approved）へ載せ替えるまで候補を作らない（fail-closed）。
     """
-    if config.SPOT_SNS != "on":
+    print("[SPOT] 停止中（2026-09-23）: 署名の無い投稿経路は使わない。")
+    _set_output("has_candidate", "false")
+    return
+    if config.SPOT_SNS != "on":  # noqa: 以下は載せ替え時の参考として残す（到達しない）
         print("[SPOT] SPOT_SNS がOFFのためスキップ。")
         _set_output("has_candidate", "false")
         return
