@@ -27,6 +27,8 @@ concurrency:
 jobs:
   check:
     name: 社長の承認を確かめる
+    # main 以外から手動実行すると state がそのブランチへ push され、二重投稿の記録がずれる（gray 所見1）
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       has_approval: ${{ steps.verify.outputs.has_approval }}
@@ -34,6 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           persist-credentials: false
       - name: Fetch ig-queue (approved images + signed approvals)
         id: queue
@@ -70,7 +73,11 @@ jobs:
     # 社長が必須レビュアーを外すと Claude のページの承認だけで投稿される（決裁 GO-2）。
     environment: production
     steps:
+      # Approve を待っている間に別の実行が投稿していることがある。投稿済みの記録（state/posted_slots.json）は
+      # 必ずこのジョブが始まった時点の最新の main から読む（gray 所見1）。
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Fetch the same ig-queue commit that was checked
         run: |
           git fetch --depth=1 origin "${{ needs.check.outputs.queue_sha }}"
@@ -92,5 +99,5 @@ jobs:
           git config user.email "bot@coran.local"
           git add state/
           git commit -m "chore: update post state [skip ci]" || echo "no changes"
-          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git pull --rebase --autostash origin main
+          git push origin "HEAD:main"

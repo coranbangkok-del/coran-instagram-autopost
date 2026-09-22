@@ -128,10 +128,19 @@ def fresh_queue(img_bytes, rec=None, slot=SLOT):
     return q
 
 
+RECENT = []   # IG 側の直近の本文（スタブ）
+
+
+def stub_recent(hours=48):
+    if RECENT == ["__error__"]:
+        raise RuntimeError("IG API 失敗の模擬")
+    return list(RECENT)
+
+
 def run_publish(q, now=AT_POST, pubkeys="", sha="a" * 40, dry=False):
     config.IG_APPROVER_PUBKEYS = pubkeys
     before = len(posts)
-    r = M.publish_approved(q, sha, dry_run=dry, now=now, post_fn=stub_post)
+    r = M.publish_approved(q, sha, dry_run=dry, now=now, post_fn=stub_post, recent_fn=stub_recent)
     return r, len(posts) - before
 
 
@@ -140,12 +149,13 @@ print("== 本文の価格・割引・販促の語")
 for w in ["฿1,500", "1500 THB", "1500THB", "baht", "20% off", "２０％", "10 percent", "discount",
           "coupon", "promo code", "promotion", "price", "free", "special offer", "sale", "voucher",
           "GREEN200", "USD 40", "$40", "€30", "300元", "8折", "優惠", "优惠", "セール", "半額", "無料",
-          "お得", "割引", "クーポン", "料金", "価格", "โปรโมชั่น", "ลดราคา", "ฟรี", "할인", "쿠폰", "5만원"]:
+          "お得", "割引", "クーポン", "料金", "価格", "โปรโมชั่น", "ลดราคา", "ฟรี", "할인", "쿠폰", "5만원",
+          "ＴＨＢ１５００", "ｆｒｅｅ"]:
     if not approval.banned_words(f"Relax with us. {w} today."):
         check(f"禁止語を拾う: {w}", False)
         break
 else:
-    check("gray r126 条件3 の語をすべて拾う（38語）", True)
+    check("gray r126 条件3 の語と全角の書き方をすべて拾う（40語）", True)
 ok_all = True
 for en in caption.SERVICE_OPENERS:
     for ja in caption.SERVICE_OPENERS_JA:
@@ -225,6 +235,14 @@ finally:
     brandimage.render = _orig_render
 check("BRAND_IMAGE=off の設定が無くなっている", not hasattr(config, "BRAND_IMAGE"))
 src_main = open(os.path.join(ROOT, "src", "main.py"), encoding="utf-8").read()
+import importlib  # noqa: E402
+spot_out = []
+_so = M._set_output
+M._set_output = lambda k, v: spot_out.append((k, v))
+config.SPOT_SNS = "on"
+M.prepare_spot()
+M._set_output = _so
+check("スポット告知の旧経路（署名なし）は止まっている", spot_out == [("has_candidate", "false")])
 check("main.py に素材そのままへ倒す分岐が無い",
       "BRAND_IMAGE" not in src_main and "素材をそのまま使います" not in src_main)
 
@@ -327,6 +345,13 @@ check("承認記録が壊れた JSON", r_ is None and n_ == 0)
 json.dump([SLOT], open(config.POSTED_SLOTS_PATH, "w"))
 expect_no_post("投稿済みの枠", base)
 os.remove(config.POSTED_SLOTS_PATH)
+RECENT[:] = [base["caption"]]
+expect_no_post("state の記録が無くても、IG に同じ本文が直近にあれば出さない", base)
+check("そのとき posted_slots に記録して次回も止める", json.load(open(config.POSTED_SLOTS_PATH)) == [SLOT])
+os.remove(config.POSTED_SLOTS_PATH)
+RECENT[:] = ["__error__"]
+expect_no_post("IG の直近の投稿を確かめられないときは出さない", base)
+RECENT[:] = []
 
 # ============================================================ 6. 中継（ルーティン側）で止まるか
 print("== 中継で止まるか（ルーティンは承認でないものを repo に書かない）")

@@ -198,7 +198,12 @@ def prepare_spot():
     空きが無い/フラグOFF/失敗のときは候補を作らない（has_candidate=false → publish はスキップ）。
     ★通常の review/service ローテとシャッフルバッグは乱さない（candidate に spot:true）。
     """
-    if config.SPOT_SNS != "on":
+    # 2026-09-22〜 IG の投稿は「社長の端末の署名つき承認」がある経路（publish-approved）だけにする。
+    # スポット告知の旧経路（production の Approve だけが関門）は、スマホ承認に載せ替えるまで止める。
+    print("[SPOT] スマホ承認の経路に載せ替えるまで停止中（署名の無い投稿経路は使わない）。")
+    _set_output("has_candidate", "false")
+    return
+    if config.SPOT_SNS != "on":  # noqa: 以下は載せ替え時の参考として残す（到達しない）
         print("[SPOT] SPOT_SNS がOFFのためスキップ。")
         _set_output("has_candidate", "false")
         return
@@ -486,7 +491,7 @@ def relay(doc_path, queue_root, now=None):
     return True
 
 
-def publish_approved(queue_root, queue_sha, dry_run=False, now=None, post_fn=None):
+def publish_approved(queue_root, queue_sha, dry_run=False, now=None, post_fn=None, recent_fn=None):
     """post.yml から呼ぶ。いま投稿してよい枠の署名つき承認を検証し、通れば投稿する。
 
     戻り値: 投稿した（dry_run なら投稿できる）枠の id、無ければ None。
@@ -538,9 +543,21 @@ def publish_approved(queue_root, queue_sha, dry_run=False, now=None, post_fn=Non
             break
         # commit を固定した URL＝検証したバイト列と IG が取りに来るバイト列が同じ（差し替え不可）
         image_url = f"https://raw.githubusercontent.com/{repo}/{queue_sha}/{rec['image_path']}"
-        if post_fn is None:
+        if post_fn is None or recent_fn is None:
             import instagram
-            post_fn = instagram.post_image
+            post_fn = post_fn or instagram.post_image
+            recent_fn = recent_fn or instagram.recent_captions
+        # 二重投稿の最後の砦: state の push に失敗した後の再実行などに備え、IG 側の直近48時間に
+        # 同じ本文があれば出さない。確かめられなければ（API の失敗）出さない。
+        try:
+            recent = recent_fn(hours=48)
+        except Exception as e:
+            reasons.append(f"{slot}: IG の直近の投稿を確かめられない（{type(e).__name__}）")
+            break
+        if approval.normalize_caption(rec["caption"]) in {approval.normalize_caption(c or "") for c in recent}:
+            _save_json(config.POSTED_SLOTS_PATH, (posted + [slot])[-200:])
+            reasons.append(f"{slot}: 同じ本文が直近48時間に IG に出ている（二重投稿防止・posted に記録）")
+            break
         media_id = post_fn(image_url, rec["caption"])
         print(f"[PUBLISH] 投稿成功 slot={slot} media_id={media_id}")
 

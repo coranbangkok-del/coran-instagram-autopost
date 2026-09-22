@@ -4,6 +4,7 @@ Instagram Graph API クライアント（2ステップ投稿）。
 2. 公開（publish）
 画像URLは公開アクセス可能でなければならない → GitHub raw URL を使う（z.com不要）。
 """
+import datetime as _dt
 import time
 
 import requests
@@ -51,3 +52,25 @@ def post_image(image_url: str, caption: str) -> str:
     """画像URL + キャプションを投稿。投稿IDを返す。"""
     creation_id = create_container(image_url, caption)
     return publish(creation_id)
+
+
+def recent_captions(hours=48):
+    """直近 hours 時間に公開した投稿の本文の一覧（二重投稿の確認用）。失敗は例外。"""
+    resp = requests.get(
+        f"{BASE}/{config.IG_USER_ID}/media",
+        params={"fields": "caption,timestamp", "limit": 25, "access_token": config.IG_ACCESS_TOKEN},
+        timeout=30,
+    )
+    if resp.status_code >= 400:
+        raise RuntimeError(f"[IG API ERROR] {resp.status_code}")   # 本文にトークンが混ざり得るので出さない
+    since = _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=hours)
+    out = []
+    for m in resp.json().get("data", []):
+        ts = m.get("timestamp", "")
+        try:
+            t = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%S%z")
+        except ValueError:
+            t = None
+        if t is None or t >= since:
+            out.append(m.get("caption") or "")
+    return out

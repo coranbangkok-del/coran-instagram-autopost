@@ -67,7 +67,16 @@ python tools/build_manifest.py    # manifest.json を実体から作り直す（
 - IG に渡す画像 URL は ig-queue の commit に固定（検証したバイト列と IG が取るバイト列が同じ）。
 - 確認ページの元は `approval-page/ig-approval.html`。署名の形・価格語のリストは `src/approval.py` と同じにする（selftest が照合）。
 - `python tools/selftest_approval.py`（ネットワーク不要・偽造／締切切れ／価格語／画像差し替えで投稿しないことを確かめる）。
-- 限界: main に push できる人はワークフロー自体を書き換えられる。IG のトークンは repo の Secret なので、枝に置いたワークフローからも使える。完全に閉じるには main の保護と、トークンを「main だけが使える環境の Secret」に移す設定が要る（決裁）。
+- 端末の登録: ページで「この端末を登録」→ 社長の画面に出た指紋（16桁）と、repo の Actions 変数 `IG_APPROVER_PUBKEYS` に入れる公開鍵の指紋が一致することを**社長自身が見て**確かめる（db の値をそのまま写さない）。変数は環境ではなく repo に置く。
+- 必須レビュアーが残っている間は、投稿しない実行を GitHub で Reject する（放置すると次の枠の実行を塞ぐ）。
+- 残る穴（2026-09-22 gray 第二レビュー）:
+  - a. main に push できる者（ig-queue に push するルーティンの資格情報がワークフロー変更権を持つ場合を含む）は post.yml 自体を書き換えられる。
+  - b. IG トークンと `GH_PAT`（Secrets 書き込み権）が repo の Secret。ブランチに置いたワークフローから使え、`IG_APPROVER_PUBKEYS` の差し替えもできうる。
+  - c. ページを再公開できる者（社長の Claude セッション＝AI を含む）が悪意あるページを載せ、社長が開くと鍵を使われうる。Artifact 同士が同じ出どころなら別の Artifact からも使われうる（実機で未確認）。
+  - d. Artifact db には書き手の刻印が無く、ArtifactData は owner として書ける。だから db の値ではなく端末の署名を正にしている。
+  - e. 「取り消して直す」を押しても、取り消す前の署名は締切前なら有効のまま（中継されれば通る）。
+  - a・b を閉じるには main のルールセット保護と、トークン類を「main だけが使える production 環境の Secret」に移す設定が要る（決裁）。
+- スポット告知（post-spot.yml）の IG 投稿は、署名の無い経路なのでスマホ承認に載せ替えるまで停止（`prepare_spot` が候補を作らない）。
 
 ## 写真の月次取り込み PR の自動マージ（2026-09-22〜）
 

@@ -14,8 +14,11 @@
   4. post.yml が承認を検証して、通ったときだけ投稿する。
 
 「社長の端末の鍵で署名されたものしか通らない」ことを、ここで機械的に確かめる。
-公開鍵は GitHub の Actions 変数 IG_APPROVER_PUBKEYS（repo の管理者しか変えられない）
-から読む。repo に push できるだけの人や AI は、承認記録を置けても署名は作れない。
+公開鍵は GitHub の repo の Actions 変数 IG_APPROVER_PUBKEYS から読む。repo に push できる
+だけの人や AI は、承認記録を置けても署名は作れない。
+ただし守れる範囲には限りがある（README「スマホ承認」の残る穴 a〜e）。とくに repo の Secret にある
+GH_PAT（Secrets 書き込み権）はブランチに置いたワークフローからも使えるので、変数の差し替えや
+post.yml 自体の書き換えを防ぐには、main の保護と Secret の環境移動（決裁）が要る。
 
 どれか1つでも確かめられなければ投稿しない（fail-closed）。理由は文字列で返す。
 """
@@ -79,7 +82,8 @@ def normalize_caption(text: str) -> str:
 def banned_words(text: str):
     """本文に含まれる禁止語の一覧（重複なし・出現順）。"""
     seen = []
-    for m in _BANNED_RE.finditer(text or ""):
+    # 全角（ＴＨＢ・１５００）もすり抜けないよう NFKC にしてから照合する（署名する本文は NFC のまま）
+    for m in _BANNED_RE.finditer(unicodedata.normalize("NFKC", text or "")):
         w = m.group(0)
         if w not in seen:
             seen.append(w)

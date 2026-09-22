@@ -109,7 +109,7 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:13px}
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const normalize = (s) => (s || "").normalize("NFC").replace(/\r\n?/g, "\n").trim();
-  const bannedWords = (s) => { const out = []; for (const m of (s || "").matchAll(bannedRe)) if (!out.includes(m[0])) out.push(m[0]); return out; };
+  const bannedWords = (s) => { const out = []; for (const m of (s || "").normalize("NFKC").matchAll(bannedRe)) if (!out.includes(m[0])) out.push(m[0]); return out; };
   const hex = (buf) => Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
   const b64url = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   const b64 = (buf) => { let s = ""; const u = new Uint8Array(buf); for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
@@ -117,6 +117,9 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:13px}
   const fmt = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Bangkok", month: "numeric", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" });
   const when = (iso) => fmt.format(new Date(iso));
   const left = (iso) => { const ms = new Date(iso) - Date.now(); if (ms <= 0) return "締切を過ぎました"; const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return `あと ${h}時間${m}分`; };
+  // 表示する日時は、署名する slot（YYYYMMDD-HHMM・BKK）から計算する（db の別の欄は信用しない）
+  const slotAt = (slot) => { const m = /^(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})$/.exec(slot || ""); return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:00+07:00` : null; };
+  const deadlineOf = (slot) => { const a = slotAt(slot); return a ? new Date(new Date(a).getTime() - 2 * 3600000).toISOString() : null; };
   const TYPE = { service: "施術", sanctuary: "店内", review: "お客様の声" };
   const LAYOUT = { A: "写真全面", B: "お客様の声", C: "店内（額装）" };
 
@@ -321,7 +324,8 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:13px}
     db = dbNs; uid = await user.id();
     db.doc("meta/registry").onSnapshot((s) => { registry = (s.exists && s.data().fps) || []; renderDevice(); }, () => {});
     db.collection("posts").orderBy("slot", "desc").limit(12).onSnapshot((snap) => {
-      posts = snap.docs.map((d) => d.data()).filter((p) => p && p.slot && p.slot_at && p.deadline);
+      posts = snap.docs.map((d) => d.data()).filter((p) => p && slotAt(p.slot))
+        .map((p) => Object.assign({}, p, { slot_at: slotAt(p.slot), deadline: deadlineOf(p.slot) }));
       renderAll();
     }, () => { $("list").textContent = ""; $("list").append(el("div", "empty", "読み込みが止まりました。開き直してください。")); });
     setInterval(() => { if (!document.activeElement || document.activeElement.tagName !== "TEXTAREA") renderAll(); }, 60000);
