@@ -59,8 +59,10 @@ check("除外したファイルが manifest に残っていない", not bad, str
 check("aroma（元の素材）は 15 枚に絞られている",
       len([e for e in man if e["file"].startswith("aroma/") and "-src-" not in e["file"]]) == 15)
 # 2026-09-21 追加分（社長の Drive 3フォルダの元写真・-src- の命名）
-check("追加素材 29 枚が manifest に入っている",
-      len([e for e in man if "-src-" in e["file"]]) == 29)
+# 月次の写真取り込み（routine/photo-intake-*）は自動マージされる＝このファイルを毎月書き換えさせない。
+# 枚数は「減っていない」ことだけを見る（29 は 2026-09-21 時点の数）。
+check("追加素材が 29 枚以上 manifest に入っている",
+      len([e for e in man if "-src-" in e["file"]]) >= 29)
 check("新カテゴリ（シロダーラ・タイ古式）に専用の見出しがある",
       all(c in brandimage.CATEGORY for c in ("shirodhara", "thai-massage")))
 check("同じカテゴリでも写真が違えば見出しが変わる（テンプレの反復を防ぐ）",

@@ -41,13 +41,25 @@ z.com を完全に捨て、**コードも画像も GitHub** で動かす自動�
 - 止めたいとき … 変数 `BRAND_IMAGE=off` で素材そのままの従来動作に戻る
 
 ```bash
-python tools/selftest_brand.py    # セルフテスト（ネットワーク不要・46項目）
+python tools/selftest_brand.py    # セルフテスト（ネットワーク不要・48項目）
+python tools/selftest_intake.py   # 写真取り込み自動マージの門番のセルフテスト
 python tools/preview_grid.py      # 9枚のグリッド見本を .preview/ に出す
 python tools/build_manifest.py    # manifest.json を実体から作り直す（除外理由もここ）
 ```
 
 **素材の取捨は `tools/build_manifest.py` の EXCLUDE / AROMA_KEEP が単一の情報源**。
 理由をコメントで必ず残すこと（何をなぜ外したかが後から分かるように）。
+
+## 写真の月次取り込み PR の自動マージ（2026-09-22〜）
+
+`photo-intake-automerge.yml`。ブランチ `routine/photo-intake-*` だけが対象（fork の PR は対象外）。
+
+- `pull_request_target` で動き、コードは main から checkout する。PR のブランチにあるコードは実行しない。PR から取り出すのは門番が通した画像と manifest だけ。
+- 門番 `tools/intake_guard.py`（main の版）：既存カテゴリへの画像（通常ファイル）の追加と `images/manifest.json` の変更だけを通す。コード・ワークフロー・`images/generated`・削除・上書き・新カテゴリ・シンボリックリンク・サブモジュールを含む PR は自動マージしない＝社長マージ。
+- manifest は main の `build_manifest.py` で作り直した結果と一致すること。セルフテスト（main のコード × PR の画像）が通ること。
+- マージは squash・`--match-head-commit`（検査した commit だけ）。
+- 限界：ブランチ保護が無いので、書き込み権を持つ人は main に直接 push できる。この門番は「意図しない変更が混ざったまま自動マージされる」のを防ぐもの。
+- aroma への追加（`AROMA_KEEP_FILES` の追記）や新カテゴリはコードの変更を含むので、自動マージされない。
 
 ## セットアップ（一度だけ）
 
