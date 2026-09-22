@@ -48,8 +48,8 @@ man = json.load(open(config.MANIFEST_PATH, encoding="utf-8"))
 check("manifest が空でない", len(man) > 0, f"{len(man)} 枚")
 missing = [e["file"] for e in man if not os.path.exists(os.path.join(config.IMAGES_DIR, e["file"]))]
 check("manifest の全ファイルが実在する", not missing, str(missing[:3]))
-check("生成物(generated/・calendar/)が素材に混ざっていない",
-      not [e for e in man if e["file"].startswith(("generated/", "calendar/"))])
+check("生成物(generated/)が素材に混ざっていない",
+      not [e for e in man if e["file"].startswith("generated/")])
 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import build_manifest  # noqa: E402

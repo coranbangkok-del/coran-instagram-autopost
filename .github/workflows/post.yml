@@ -19,16 +19,9 @@ concurrency:
   group: ig-auto-post
   cancel-in-progress: true
 
-# ▼ 2つの経路（リポジトリ変数 CALENDAR_MODE で切り替え・既定は従来どおり）
-#   CALENDAR_MODE が "on" 以外（未設定を含む）: prepare → production 承認（投稿ごと）→ publish  … 従来
-#   CALENDAR_MODE == "on"                   : publish-calendar だけが動く                     … 社長決定 2026-09-22 S-2
-#       main にある承認済み calendar/YYYY-MM.json（月1回の PR マージ＝包括承認）に載っている今日の1件だけを、
-#       投稿ごとの承認なしで公開する。カレンダーが無い・今日の分が無い・中身が記録と違う → 投稿しない（fail-closed）。
-#   切り替えは Settings → Secrets and variables → Actions → Variables に CALENDAR_MODE=on（社長の設定操作）。
 jobs:
   prepare:
     name: 投稿候補を作成
-    if: vars.CALENDAR_MODE != 'on'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -100,36 +93,3 @@ jobs:
           git commit -m "chore: update post state [skip ci]" || echo "no changes"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-
-  publish-calendar:
-    name: 承認済みカレンダーから投稿（CALENDAR_MODE=on）
-    # main 以外（手動実行でブランチを選んだ場合など）では動かさない＝未承認のカレンダーを読ませない
-    if: vars.CALENDAR_MODE == 'on' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    # ▼ 投稿ごとの承認ゲート（environment: production）は付けない。承認はカレンダー PR のマージで済んでいる。
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: pip install -r requirements.txt
-      - name: Publish today's approved post
-        env:
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
-        run: python src/main.py publish-calendar
-      - name: Commit updated state
-        run: |
-          git config user.name "coran-autopost-bot"
-          git config user.email "bot@coran.local"
-          git add state/
-          if git diff --cached --quiet; then
-            echo "state に変更なし（今日は投稿日でない）"
-          else
-            git commit -m "chore: update post state (calendar) [skip ci]"
-            git pull --rebase --autostash origin main
-            git push origin HEAD:main
-          fi

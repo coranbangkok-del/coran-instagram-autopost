@@ -110,8 +110,7 @@ def main():
 
     out, dropped = [], []
     for root, dirs, files in os.walk(IMAGES):
-        # 生成物は素材ではない（generated=従来経路の最新1枚／calendar=月次カレンダーの画像）
-        dirs[:] = [d for d in dirs if d not in ("generated", "calendar")]
+        dirs[:] = [d for d in dirs if d != "generated"]   # 生成物は素材ではない
         for f in sorted(files):
             if not f.lower().endswith((".png", ".jpg", ".jpeg")):
                 continue

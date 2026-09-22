@@ -42,7 +42,7 @@ z.com を完全に捨て、**コードも画像も GitHub** で動かす自動�
 
 ```bash
 python tools/selftest_brand.py    # セルフテスト（ネットワーク不要・48項目）
-python tools/selftest_calendar.py # カレンダー承認と取り込み門番のセルフテスト（81項目）
+python tools/selftest_intake.py   # 写真取り込み自動マージの門番のセルフテスト
 python tools/preview_grid.py      # 9枚のグリッド見本を .preview/ に出す
 python tools/build_manifest.py    # manifest.json を実体から作り直す（除外理由もここ）
 ```
@@ -50,28 +50,16 @@ python tools/build_manifest.py    # manifest.json を実体から作り直す（
 **素材の取捨は `tools/build_manifest.py` の EXCLUDE / AROMA_KEEP が単一の情報源**。
 理由をコメントで必ず残すこと（何をなぜ外したかが後から分かるように）。
 
-## 月次カレンダー承認（S-2・社長決定 2026-09-22）
-
-投稿ごとの Approve をやめ、**月1回、翌月分のカレンダーをまとめて承認**する経路。既定は OFF（従来どおり投稿ごとの承認）。
-
-```
-毎月1日 ig-calendar.yml → calendar/YYYY-MM.json（日付・巡回型・素材・本文・画像の sha256）
-                          ＋ images/calendar/YYYY-MM/*.jpg ＋ 一覧 calendar/YYYY-MM.md
-                        → ブランチ routine/ig-calendar-YYYY-MM → PR（自動マージしない）
-社長が PR をマージ      = その月の IG 通常投稿の包括承認
-火/金 post.yml         → CALENDAR_MODE=on のとき publish-calendar だけが動き、
-                          main の当月カレンダーにある今日の1件を投稿ごとの承認なしで公開
-```
-
-- **fail-closed**：カレンダーが無い・今日の分が無い・画像の sha256 が記録と違う・本文に価格/割引/クーポンの語・`images/calendar/<月>/` の外を指すパス → 公開しない（今日が投稿日でないときだけ正常終了、それ以外はジョブを失敗させる）。
-- cron の遅延で日付をまたいだときだけ、前日の未公開分を1日だけ救う。公開済みの id は `state/calendar_published.json`。
-- PR で1件消せばその日は出ない。本文の手直しは JSON の caption を直す（画像を差し替えると sha256 が合わず止まる＝作り直しはブランチを消して Run workflow）。
-- 切り替え：Settings → Secrets and variables → Actions → **Variables** に `CALENDAR_MODE` = `on`。戻すときは変数を消す。
-- 検証：`python tools/selftest_calendar.py`（ネットワーク不要）。
-
 ## 写真の月次取り込み PR の自動マージ（2026-09-22〜）
 
-`photo-intake-automerge.yml`。ブランチ `routine/photo-intake-*` だけが対象で、セルフテストが通り、変更が「既存カテゴリへの画像の追加＋`images/manifest.json`（build_manifest.py の出力と一致）」だけのときに squash マージする。fork の PR は対象外。コード・ワークフロー・カレンダー・`images/generated`・`images/calendar`・削除・上書き・新カテゴリを含む PR は自動マージしない（門番 `tools/intake_guard.py` は main の版で実行）。
+`photo-intake-automerge.yml`。ブランチ `routine/photo-intake-*` だけが対象（fork の PR は対象外）。
+
+- `pull_request_target` で動き、コードは main から checkout する。PR のブランチにあるコードは実行しない。PR から取り出すのは門番が通した画像と manifest だけ。
+- 門番 `tools/intake_guard.py`（main の版）：既存カテゴリへの画像（通常ファイル）の追加と `images/manifest.json` の変更だけを通す。コード・ワークフロー・`images/generated`・削除・上書き・新カテゴリ・シンボリックリンク・サブモジュールを含む PR は自動マージしない＝社長マージ。
+- manifest は main の `build_manifest.py` で作り直した結果と一致すること。セルフテスト（main のコード × PR の画像）が通ること。
+- マージは squash・`--match-head-commit`（検査した commit だけ）。
+- 限界：ブランチ保護が無いので、書き込み権を持つ人は main に直接 push できる。この門番は「意図しない変更が混ざったまま自動マージされる」のを防ぐもの。
+- aroma への追加（`AROMA_KEEP_FILES` の追記）や新カテゴリはコードの変更を含むので、自動マージされない。
 
 ## セットアップ（一度だけ）
 
