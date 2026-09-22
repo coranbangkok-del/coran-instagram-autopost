@@ -17,20 +17,20 @@
   `curl -s "https://api.github.com/repos/coranbangkok-del/coran-instagram-autopost/actions/workflows/post.yml/runs?per_page=5"`
 
 ## 実際に起きた事故と落とし穴
-- 6/29〜9/17 公開0。候補が承認されず30日失効×15 → state コミットが途絶え → 60日無活動で GitHub が schedule を黙って Disabled（9/1 頃）。Enable だけでは再発する。今は prepare が毎回画像をコミットするので防げているが、`BRAND_IMAGE=off` だとこのコミットが入らない。
-- 承認待ちの古い run は「作られた時点のコード」の候補。機能マージ後に古い run を承認すると旧仕様の画が出る（CORAN Frame 後の run #23 で踏みかけた）。承認前に上の API で `head_sha` と作成日時を確かめる。`concurrency` は導入前の run には効かない。
+- 6/29〜9/17 公開0。候補が承認されず30日失効×15 → state コミットが途絶え → 60日無活動で GitHub が schedule を黙って Disabled（9/1 頃）。Enable だけでは再発する。対策として prepare が毎回生成画像をコミットする設計にした（CI 上での実績は 9/22 時点で未実測・r92）。`BRAND_IMAGE=off` だとこのコミットが入らない。
+- 承認待ちの古い run は「作られた時点のコード」の候補。機能マージ後に古い run を承認すると旧仕様の画が出る（CORAN Frame 後の run #23 で踏みかけた）。承認前に上の API で `head_sha` と作成日時を確かめる。`concurrency` は post.yml にだけあり、導入前の run と `post-spot.yml`（concurrency なし・承認待ちが複数残っている）には効かない。
 - 候補 artifact は7日で消える。それより古い run を承認しても publish は失敗する。
 - IG は公開 URL（raw.githubusercontent.com の main）から画像を取る。repo を非公開にする・画像を main 以外に置くと投稿が丸ごと失敗する。
 - publish の push は `git pull --rebase` 後でないと prepare の bot コミットと衝突する。ワークフローの push 手順を崩さない。
 - `photo_picker.pick_photo` の preferred_tags は「どれか1つ一致」。sanctuary に `ambience` を足すと施術写真が全部当たる（sanctuary=`["sanctuary"]`／review=`["interior"]` のまま）。
-- お客様の声（B 型）は `reviews/curated.json` が `[]` で Places キーも無いため、構造上一度も出ていない（r93・ピンク）。入れるなら★5・40字以上・個人名と他店名なし。
+- お客様の声（B 型）は `reviews/curated.json` が `[]` で Places キーも無いため、構造上一度も出ていない（r93・ピンク）。入れるなら★5・40字以上・個人名と他店名なし（curated.json にはコードの閾値が掛からないので人が守る）。
 - Actions 画面で Cancel run を browser_batch でまとめてクリックすると自動モードに拒否され、そのタブが操作不能になる。1件ずつスクショを挟む。
 
 ## 素材と画像の決まり
 - manifest の取捨は `tools/build_manifest.py` の EXCLUDE／AROMA_KEEP が唯一の正。manifest.json を手で直さず、理由コメント付きでここを直して再生成。
 - Dream Hotel 時代の写真（`gallery_dream_*`・`SOtraveler-DreamBKK-*`・`*_dream_middlesize`）は使わない。価格を焼き込んだ画像・透かし入り素材は入れない。
 - 実在しない部屋・スタッフの AI 画像生成はしない（社長方針）。ロゴは現行のみ。
-- 新しい写真は毎月1日の取り込み（`~/dev/team-takuro/tools/purple_photo_intake.py`・r107）で PR `feat/photo-intake-YYYY-MM` として入れる。
+- 新しい写真は毎月1日の取り込み（`~/dev/team-takuro/tools/purple_photo_intake.py`・r107）経由で、ブランチ→PR→社長マージで入れる。スクリプト自体は候補を `team-takuro/purple/photo-intake/YYYY-MM/` に出すだけ。
 
 ## 止める条件（GO-2＝決裁箱へ）
 - Actions の Approve／Run workflow／Enable・Disable、IG・LINE・GBP への実送信。
