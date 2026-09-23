@@ -1,0 +1,1808 @@
+{
+  "version": 1,
+  "note": "CORAN Frame（見出し焼き込み済み）の在庫。価格・割引・クーポンは焼き込まない。",
+  "baseUrl": "https://raw.githubusercontent.com/coranbangkok-del/coran-instagram-autopost/main/images/social",
+  "frames": [
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-01",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-01.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-02",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day stops following you.",
+      "headlineJa": "追いかけてくる一日を、ここで置いていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-02.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-03",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-03.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-04",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Warm oil, slow hands.",
+      "headlineJa": "温かなオイルと、ゆっくりした手のひら。",
+      "layout": "C",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-04.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-05",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-05.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aroma-src-06",
+      "path": "aroma/aroma-coran-spa-bangkok-aroma-src-06.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day stops following you.",
+      "headlineJa": "追いかけてくる一日を、ここで置いていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-06.jpg"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-01",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-01.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-03",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-03.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-07",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-07.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-07.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-13",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-13.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day stops following you.",
+      "headlineJa": "追いかけてくる一日を、ここで置いていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-13.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-14",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-14.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-14.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-17",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-17.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day stops following you.",
+      "headlineJa": "追いかけてくる一日を、ここで置いていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-17.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-18",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-18.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-18.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-21",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-21.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-21.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-27",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-27.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-27.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-28",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-28.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day stops following you.",
+      "headlineJa": "追いかけてくる一日を、ここで置いていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-28.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-29",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-29.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-29.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-36",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-36.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-36.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-aromatherapy-massage-38",
+      "path": "aroma/aroma-coran-spa-bangkok-aromatherapy-massage-38.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aromatherapy-massage-38.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-deep-tissue-massage-40",
+      "path": "aroma/aroma-coran-spa-bangkok-deep-tissue-massage-40.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Breathe out. We will take it from here.",
+      "headlineJa": "力を抜いて。あとはこちらで。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-deep-tissue-massage-40.png"
+    },
+    {
+      "id": "aroma-coran-spa-bangkok-deep-tissue-massage-42",
+      "path": "aroma/aroma-coran-spa-bangkok-deep-tissue-massage-42.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The city goes quiet under warm oil.",
+      "headlineJa": "温めたオイルが、都会の音を遠ざけていく。",
+      "layout": "A",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-deep-tissue-massage-42.png"
+    },
+    {
+      "id": "award-coran-spa-bangkok-award-recognition-01",
+      "path": "award/award-coran-spa-bangkok-award-recognition-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "detail"
+      ],
+      "headlineEn": "World Luxury Spa Awards Winner",
+      "headlineJa": "ワールドラグジュアリースパアワード受賞。",
+      "layout": "C",
+      "keyword": "award",
+      "source": "award/coran-spa-bangkok-award-recognition-01.png"
+    },
+    {
+      "id": "award-coran150602-064",
+      "path": "award/award-coran150602-064.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "detail"
+      ],
+      "headlineEn": "World Luxury Spa Awards Winner",
+      "headlineJa": "ワールドラグジュアリースパアワード受賞。",
+      "layout": "C",
+      "keyword": "award",
+      "source": "award/coran150602-064.jpg"
+    },
+    {
+      "id": "body-mask-coran-spa-bangkok-body-mask-wrap-treatment-01",
+      "path": "body-mask/body-mask-coran-spa-bangkok-body-mask-wrap-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Stillness, and the skin answers.",
+      "headlineJa": "動かずにいる時間が、肌を変えていく。",
+      "layout": "A",
+      "keyword": "body-mask",
+      "source": "body-mask/coran-spa-bangkok-body-mask-wrap-treatment-01.png"
+    },
+    {
+      "id": "body-mask-coran-spa-bangkok-body-mask-wrap-treatment-02",
+      "path": "body-mask/body-mask-coran-spa-bangkok-body-mask-wrap-treatment-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Wrapped, warmed, and let go.",
+      "headlineJa": "包まれて、温まって、ほどけていく。",
+      "layout": "A",
+      "keyword": "body-mask",
+      "source": "body-mask/coran-spa-bangkok-body-mask-wrap-treatment-02.png"
+    },
+    {
+      "id": "body-scrub-coran-spa-bangkok-body-scrub-exfoliation-01",
+      "path": "body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Skin remembers kindness.",
+      "headlineJa": "肌は、やさしさを覚えている。",
+      "layout": "A",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-01.png"
+    },
+    {
+      "id": "body-scrub-coran-spa-bangkok-body-scrub-exfoliation-02",
+      "path": "body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Rough day, smooth finish.",
+      "headlineJa": "ざらついた一日を、なめらかに。",
+      "layout": "A",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-02.png"
+    },
+    {
+      "id": "body-scrub-coran-spa-bangkok-body-scrub-exfoliation-03",
+      "path": "body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Skin remembers kindness.",
+      "headlineJa": "肌は、やさしさを覚えている。",
+      "layout": "A",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-03.png"
+    },
+    {
+      "id": "coconut-coran-spa-bangkok-coconut-hair-mask-01",
+      "path": "coconut/coconut-coran-spa-bangkok-coconut-hair-mask-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The islands, in a jar.",
+      "headlineJa": "南の島の恵みを、ひと瓶に。",
+      "layout": "A",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-hair-mask-01.png"
+    },
+    {
+      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-01",
+      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The islands, in a jar.",
+      "headlineJa": "南の島の恵みを、ひと瓶に。",
+      "layout": "A",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-01.png"
+    },
+    {
+      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-02",
+      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Coconut, slow and warm.",
+      "headlineJa": "ココナッツの温もりを、ゆっくりと。",
+      "layout": "A",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-02.png"
+    },
+    {
+      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-03",
+      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "The islands, in a jar.",
+      "headlineJa": "南の島の恵みを、ひと瓶に。",
+      "layout": "A",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-03.png"
+    },
+    {
+      "id": "concept-coran-spa-bangkok-concept-src-01",
+      "path": "concept/concept-coran-spa-bangkok-concept-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "ambiance"
+      ],
+      "headlineEn": "A quiet escape in the heart of Bangkok.",
+      "headlineJa": "バンコクの真ん中で、静かに整う。",
+      "layout": "A",
+      "keyword": "concept",
+      "source": "concept/coran-spa-bangkok-concept-src-01.jpg"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-facial-src-01",
+      "path": "facial/facial-coran-spa-bangkok-facial-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Quiet care, face to face.",
+      "headlineJa": "静かな時間が、肌を整えていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-01.jpg"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-facial-src-02",
+      "path": "facial/facial-coran-spa-bangkok-facial-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Your face, unclenched.",
+      "headlineJa": "こわばった表情が、ほどけていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-02.jpg"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-facial-src-03",
+      "path": "facial/facial-coran-spa-bangkok-facial-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Quiet care, face to face.",
+      "headlineJa": "静かな時間が、肌を整えていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-03.jpg"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-facial-src-04",
+      "path": "facial/facial-coran-spa-bangkok-facial-src-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Your face, unclenched.",
+      "headlineJa": "こわばった表情が、ほどけていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-04.jpg"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-01",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Quiet care, face to face.",
+      "headlineJa": "静かな時間が、肌を整えていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-01.png"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-02",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Your face, unclenched.",
+      "headlineJa": "こわばった表情が、ほどけていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-02.png"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-03",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Quiet care, face to face.",
+      "headlineJa": "静かな時間が、肌を整えていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-03.png"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-04",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Your face, unclenched.",
+      "headlineJa": "こわばった表情が、ほどけていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-04.png"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-05",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Quiet care, face to face.",
+      "headlineJa": "静かな時間が、肌を整えていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-05.png"
+    },
+    {
+      "id": "facial-coran-spa-bangkok-organic-facial-treatment-06",
+      "path": "facial/facial-coran-spa-bangkok-organic-facial-treatment-06.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Your face, unclenched.",
+      "headlineJa": "こわばった表情が、ほどけていく。",
+      "layout": "A",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-organic-facial-treatment-06.png"
+    },
+    {
+      "id": "foot-coran-spa-bangkok-foot-massage-reflexology-01",
+      "path": "foot/foot-coran-spa-bangkok-foot-massage-reflexology-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "For the part of you that walks all day.",
+      "headlineJa": "一日中歩いた足に、ごほうびの時間を。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-massage-reflexology-01.png"
+    },
+    {
+      "id": "foot-coran-spa-bangkok-foot-massage-reflexology-02",
+      "path": "foot/foot-coran-spa-bangkok-foot-massage-reflexology-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Bangkok is hard on feet.",
+      "headlineJa": "歩きどおしの街だから、足から休ませる。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-massage-reflexology-02.png"
+    },
+    {
+      "id": "foot-coran-spa-bangkok-foot-spa-treatment-01",
+      "path": "foot/foot-coran-spa-bangkok-foot-spa-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Bangkok is hard on feet.",
+      "headlineJa": "歩きどおしの街だから、足から休ませる。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-spa-treatment-01.png"
+    },
+    {
+      "id": "foot-coran-spa-bangkok-foot-spa-treatment-02",
+      "path": "foot/foot-coran-spa-bangkok-foot-spa-treatment-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "For the part of you that walks all day.",
+      "headlineJa": "一日中歩いた足に、ごほうびの時間を。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-spa-treatment-02.png"
+    },
+    {
+      "id": "foot-foot-1",
+      "path": "foot/foot-foot-1.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "For the part of you that walks all day.",
+      "headlineJa": "一日中歩いた足に、ごほうびの時間を。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/foot-1.png"
+    },
+    {
+      "id": "foot-foot",
+      "path": "foot/foot-foot.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "For the part of you that walks all day.",
+      "headlineJa": "一日中歩いた足に、ごほうびの時間を。",
+      "layout": "A",
+      "keyword": "foot",
+      "source": "foot/foot.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-hair-mask-treatment-01",
+      "path": "head-massage/head-massage-coran-spa-bangkok-hair-mask-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-hair-mask-treatment-01.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-relaxation-01",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-01.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-relaxation-02",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-02.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-relaxation-03",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-03.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-01",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-01.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-02",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-02.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-03",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-03.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-04",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-04.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-05",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-05.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-06",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-06.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-06.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-scalp-08",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-scalp-08.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-scalp-08.png"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-src-01",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-src-01.jpg"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-src-02",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-src-02.jpg"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-src-03",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-src-03.jpg"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-src-04",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-src-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Too many tabs open.",
+      "headlineJa": "頭のなかを、ひとつずつ閉じていく。",
+      "layout": "C",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-src-04.jpg"
+    },
+    {
+      "id": "head-massage-coran-spa-bangkok-head-massage-src-05",
+      "path": "head-massage/head-massage-coran-spa-bangkok-head-massage-src-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Where the day finally lets go.",
+      "headlineJa": "考えごとの多い一日を、頭から解いていく。",
+      "layout": "A",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-src-05.jpg"
+    },
+    {
+      "id": "herbal-ball-coran-spa-bangkok-herbal-ball-compress-01",
+      "path": "herbal-ball/herbal-ball-coran-spa-bangkok-herbal-ball-compress-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Steamed herbs, pressed warm.",
+      "headlineJa": "蒸したてのハーブボールを、ゆっくりと。",
+      "layout": "A",
+      "keyword": "herbal-ball",
+      "source": "herbal-ball/coran-spa-bangkok-herbal-ball-compress-01.png"
+    },
+    {
+      "id": "herbal-ball-coran-spa-bangkok-herbal-ball-compress-02",
+      "path": "herbal-ball/herbal-ball-coran-spa-bangkok-herbal-ball-compress-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Steamed herbs, pressed warm.",
+      "headlineJa": "蒸したてのハーブボールを、ゆっくりと。",
+      "layout": "A",
+      "keyword": "herbal-ball",
+      "source": "herbal-ball/coran-spa-bangkok-herbal-ball-compress-02.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-herbal-detox-tea-01",
+      "path": "herbs/herbs-coran-spa-bangkok-herbal-detox-tea-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Grown here. Used here.",
+      "headlineJa": "この土地の薬草を、この手で。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbal-detox-tea-01.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-herbs-src-01",
+      "path": "herbs/herbs-coran-spa-bangkok-herbs-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-01.jpg"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-herbs-src-02",
+      "path": "herbs/herbs-coran-spa-bangkok-herbs-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Grown here. Used here.",
+      "headlineJa": "この土地の薬草を、この手で。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-02.jpg"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-herbs-src-03",
+      "path": "herbs/herbs-coran-spa-bangkok-herbs-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-03.jpg"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-01",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Grown here. Used here.",
+      "headlineJa": "この土地の薬草を、この手で。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-01.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-02",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-02.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-03",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Grown here. Used here.",
+      "headlineJa": "この土地の薬草を、この手で。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-03.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-04",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-04.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-05",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Grown here. Used here.",
+      "headlineJa": "この土地の薬草を、この手で。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-05.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-06",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-06.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-06.png"
+    },
+    {
+      "id": "herbs-coran-spa-bangkok-thai-herbal-remedy-08",
+      "path": "herbs/herbs-coran-spa-bangkok-thai-herbal-remedy-08.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Old recipes, still working.",
+      "headlineJa": "タイに伝わる薬草の知恵を、いまの施術に。",
+      "layout": "A",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-thai-herbal-remedy-08.png"
+    },
+    {
+      "id": "maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-01",
+      "path": "maternity-massage/maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Carried all day. Carried here, too.",
+      "headlineJa": "抱えてきた重さを、ここでは預けて。",
+      "layout": "A",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-prenatal-maternity-massage-01.png"
+    },
+    {
+      "id": "maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-03",
+      "path": "maternity-massage/maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Carried all day. Carried here, too.",
+      "headlineJa": "抱えてきた重さを、ここでは預けて。",
+      "layout": "A",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-prenatal-maternity-massage-03.png"
+    },
+    {
+      "id": "maternity-massage-coran-spa-bangkok-sweet-almond-oil-maternity-01",
+      "path": "maternity-massage/maternity-massage-coran-spa-bangkok-sweet-almond-oil-maternity-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Carried all day. Carried here, too.",
+      "headlineJa": "抱えてきた重さを、ここでは預けて。",
+      "layout": "A",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-sweet-almond-oil-maternity-01.png"
+    },
+    {
+      "id": "milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-01",
+      "path": "milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Milk, warmth, and quiet.",
+      "headlineJa": "ミルクの温もりに包まれる時間。",
+      "layout": "A",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-01.png"
+    },
+    {
+      "id": "milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-02",
+      "path": "milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Milk, warmth, and quiet.",
+      "headlineJa": "ミルクの温もりに包まれる時間。",
+      "layout": "A",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-02.png"
+    },
+    {
+      "id": "milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-03",
+      "path": "milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Milk, warmth, and quiet.",
+      "headlineJa": "ミルクの温もりに包まれる時間。",
+      "layout": "A",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-03.png"
+    },
+    {
+      "id": "milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-04",
+      "path": "milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Milk, warmth, and quiet.",
+      "headlineJa": "ミルクの温もりに包まれる時間。",
+      "layout": "A",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-04.png"
+    },
+    {
+      "id": "milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-05",
+      "path": "milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Milk, warmth, and quiet.",
+      "headlineJa": "ミルクの温もりに包まれる時間。",
+      "layout": "A",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-05.png"
+    },
+    {
+      "id": "office-syndrome-coran-spa-bangkok-office-syndrome-treatment-01",
+      "path": "office-syndrome/office-syndrome-coran-spa-bangkok-office-syndrome-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "For shoulders that hold too much.",
+      "headlineJa": "抱えこんだ肩に、ほどく時間を。",
+      "layout": "A",
+      "keyword": "office-syndrome",
+      "source": "office-syndrome/coran-spa-bangkok-office-syndrome-treatment-01.png"
+    },
+    {
+      "id": "office-syndrome-coran-spa-bangkok-office-syndrome-vdt-treatment-01",
+      "path": "office-syndrome/office-syndrome-coran-spa-bangkok-office-syndrome-vdt-treatment-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Desk all day, undone here.",
+      "headlineJa": "デスクでこわばった体を、ほどいていく。",
+      "layout": "A",
+      "keyword": "office-syndrome",
+      "source": "office-syndrome/coran-spa-bangkok-office-syndrome-vdt-treatment-01.png"
+    },
+    {
+      "id": "product-coran-spa-bangkok-lotus-body-scrub-product-01",
+      "path": "product/product-coran-spa-bangkok-lotus-body-scrub-product-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Made for the skin we touch.",
+      "headlineJa": "施術で使うものを、そのままお持ち帰りに。",
+      "layout": "C",
+      "keyword": "product",
+      "source": "product/coran-spa-bangkok-lotus-body-scrub-product-01.png"
+    },
+    {
+      "id": "product-coran-spa-bangkok-organic-spa-products-01",
+      "path": "product/product-coran-spa-bangkok-organic-spa-products-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "product"
+      ],
+      "headlineEn": "Made for the skin we touch.",
+      "headlineJa": "施術で使うものを、そのままお持ち帰りに。",
+      "layout": "A",
+      "keyword": "product",
+      "source": "product/coran-spa-bangkok-organic-spa-products-01.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-01",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "A single thread of warm oil.",
+      "headlineJa": "額に落ちる一筋のオイルが、思考を静めていく。",
+      "layout": "A",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-01.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-02",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Let the mind go quiet.",
+      "headlineJa": "考えごとが、しずかに止まっていく。",
+      "layout": "A",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-02.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-03",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "A single thread of warm oil.",
+      "headlineJa": "額に落ちる一筋のオイルが、思考を静めていく。",
+      "layout": "A",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-03.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-04",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-04.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Let the mind go quiet.",
+      "headlineJa": "考えごとが、しずかに止まっていく。",
+      "layout": "A",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-04.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-05",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-05.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "A single thread of warm oil.",
+      "headlineJa": "額に落ちる一筋のオイルが、思考を静めていく。",
+      "layout": "A",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-05.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-06",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-06.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Let the mind go quiet.",
+      "headlineJa": "考えごとが、しずかに止まっていく。",
+      "layout": "C",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-06.jpg"
+    },
+    {
+      "id": "shirodhara-coran-spa-bangkok-shirodhara-src-07",
+      "path": "shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-07.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "A single thread of warm oil.",
+      "headlineJa": "額に落ちる一筋のオイルが、思考を静めていく。",
+      "layout": "C",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-07.jpg"
+    },
+    {
+      "id": "shop-entrance-02",
+      "path": "shop/shop-entrance-02.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Third floor. The city drops away.",
+      "headlineJa": "3階のドアを開けると、街の音が遠くなる。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/entrance_02.jpg"
+    },
+    {
+      "id": "shop-nighthotel.building",
+      "path": "shop/shop-nighthotel.building.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "A quiet street, a quieter room.",
+      "headlineJa": "スクンビット soi 15、静かな一角に。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/nighthotel.building.png"
+    },
+    {
+      "id": "shop-outside-building-01",
+      "path": "shop/shop-outside-building-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "A quiet street, a quieter room.",
+      "headlineJa": "スクンビット soi 15、静かな一角に。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/outside-building_01.jpg"
+    },
+    {
+      "id": "shop-reception01",
+      "path": "shop/shop-reception01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Third floor. The city drops away.",
+      "headlineJa": "3階のドアを開けると、街の音が遠くなる。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/reception01.jpg"
+    },
+    {
+      "id": "shop-reception-01",
+      "path": "shop/shop-reception-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Rooms built for not being disturbed.",
+      "headlineJa": "邪魔をされないための、個室です。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/reception_01.jpg"
+    },
+    {
+      "id": "shop-reception-02",
+      "path": "shop/shop-reception-02.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "A quiet street, a quieter room.",
+      "headlineJa": "スクンビット soi 15、静かな一角に。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/reception_02.jpg"
+    },
+    {
+      "id": "shop-sparoom-01",
+      "path": "shop/shop-sparoom-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Third floor. The city drops away.",
+      "headlineJa": "3階のドアを開けると、街の音が遠くなる。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/sparoom_01.jpg"
+    },
+    {
+      "id": "shop-sparoom-02",
+      "path": "shop/shop-sparoom-02.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Rooms built for not being disturbed.",
+      "headlineJa": "邪魔をされないための、個室です。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/sparoom_02.jpg"
+    },
+    {
+      "id": "shop-thaimassageroom-01",
+      "path": "shop/shop-thaimassageroom-01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "A quiet street, a quieter room.",
+      "headlineJa": "スクンビット soi 15、静かな一角に。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/thaimassageroom_01.jpg"
+    },
+    {
+      "id": "shop-treatment-room01",
+      "path": "shop/shop-treatment-room01.jpg",
+      "ratio": "4:5",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "headlineEn": "Rooms built for not being disturbed.",
+      "headlineJa": "邪魔をされないための、個室です。",
+      "layout": "C",
+      "keyword": "shop",
+      "source": "shop/treatment_room01.jpg"
+    },
+    {
+      "id": "thai-massage-coran-spa-bangkok-thai-massage-src-01",
+      "path": "thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-01.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Stretch, breathe, begin again.",
+      "headlineJa": "伸びて、ほどけて、また歩き出せる。",
+      "layout": "A",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-01.jpg"
+    },
+    {
+      "id": "thai-massage-coran-spa-bangkok-thai-massage-src-02",
+      "path": "thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-02.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "An old Thai craft, done with care.",
+      "headlineJa": "タイに受け継がれる手技を、ていねいに。",
+      "layout": "A",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-02.jpg"
+    },
+    {
+      "id": "thai-massage-coran-spa-bangkok-thai-massage-src-03",
+      "path": "thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-03.jpg",
+      "ratio": "4:5",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "headlineEn": "Stretch, breathe, begin again.",
+      "headlineJa": "伸びて、ほどけて、また歩き出せる。",
+      "layout": "A",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-03.jpg"
+    }
+  ]
+}

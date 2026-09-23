@@ -18,7 +18,11 @@ import config
 # カテゴリ → (小見出し, 既定レイアウト, [(英語の一行, 和文の一行), ...])
 #   一行は Claude が使えないときのフォールバック。APIが続けて失敗しても同じ文が並ばないよう
 #   カテゴリごとに複数持ち、素材のファイル名から決まる（同じ写真なら毎回同じ・写真が違えば違う）。
-#   事実の主張（価格・所要時間・受賞名・人数）はここに書かない。
+#   ★事実の主張（価格・所要時間・人数）はここに書かない。
+#   所要時間を書くと、画を選ぶ側（coran-social の selectFrame）はメニューの分数を見ていないので、
+#   60分のメニューに「ninety minutes」の画が当たって事実と違う投稿になる（2026-09-23 に実在した）。
+#   tools/build_social_frames.py の見出し検査がこれを機械的に弾く。
+#   例外は award カテゴリの受賞名だけ（実際の受賞で、受賞写真にしか使われない）。
 CATEGORY = {
     "aroma": ("Aromatherapy Massage", "A", [
         ("The city goes quiet under warm oil.", "温めたオイルが、都会の音を遠ざけていく。"),
@@ -31,7 +35,7 @@ CATEGORY = {
     ]),
     "body-mask": ("Body Mask & Wrap", "A", [
         ("Wrapped, warmed, and let go.", "包まれて、温まって、ほどけていく。"),
-        ("Stillness, for twenty minutes.", "動かない20分が、肌を変えていく。"),
+        ("Stillness, and the skin answers.", "動かずにいる時間が、肌を変えていく。"),
     ]),
     "body-scrub": ("Body Scrub", "A", [
         ("Skin remembers kindness.", "肌は、やさしさを覚えている。"),
@@ -69,7 +73,7 @@ CATEGORY = {
     ]),
     "office-syndrome": ("Office Syndrome Care", "A", [
         ("For shoulders that hold too much.", "抱えこんだ肩に、ほどく時間を。"),
-        ("Desk all day, undone in ninety minutes.", "デスクでこわばった体を、ほどいていく。"),
+        ("Desk all day, undone here.", "デスクでこわばった体を、ほどいていく。"),
     ]),
     "product": ("Our Products", "A", [
         ("Made for the skin we touch.", "施術で使うものを、そのままお持ち帰りに。"),
