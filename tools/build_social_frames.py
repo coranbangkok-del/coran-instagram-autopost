@@ -125,6 +125,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="先頭から N 枚だけ作る（試し刷り）")
     ap.add_argument("--force", action="store_true", help="既にある画も作り直す")
+    ap.add_argument("--per-category", type=int, default=4,
+                    help="ストーリー背景(9:16)をカテゴリごとに何枚作るか（既定4）")
     args = ap.parse_args()
 
     photos = json.load(open(config.MANIFEST_PATH, encoding="utf-8"))
@@ -148,6 +150,7 @@ def main():
         return 1
 
     # ── パス2: ここから先で初めて書き出す ──
+    #   まず 9:16 のストーリー背景。文字を焼かない＝本日の空き時刻は投稿直前に載せる。
     # 既存の目録があれば、作り直さない画の layout はそこから引く
     # （素材が小さいと A→C に落ちるので、既定値を書くと実物とズレた目録になる）。
     prev_layout = {}
@@ -193,6 +196,38 @@ def main():
         if args.limit and len(frames) >= args.limit:
             break
 
+    # ── ストーリー背景（9:16・文字なし）──
+    #   毎朝の「本日の空き」ストーリーが使う。時刻は coran-social が実行時に載せるので、
+    #   ここでは絵だけを作る。カテゴリごとに --per-category 枚まで（全部作ると repo が重い）。
+    import brandkit  # noqa: E402  （ここでしか使わない）
+    story_count = {}
+    for photo, rel, cat, categories, tags in picked:
+        if story_count.get(cat, 0) >= args.per_category:
+            continue
+        fid = frame_id(rel)
+        out_rel = f"stories/{cat}/{fid}.jpg"
+        out_path = os.path.join(OUT_DIR, out_rel)
+        if not (os.path.exists(out_path) and not args.force):
+            src_path = os.path.join(config.IMAGES_DIR, photo["file"])
+            try:
+                img = brandkit.layout_story_bg(src_path)
+            except Exception as e:
+                failed.append((rel, f"story: {type(e).__name__}: {e}"))
+                continue
+            os.makedirs(os.path.dirname(out_path), exist_ok=True)
+            img.save(out_path, quality=88, optimize=True, subsampling=1)
+        story_count[cat] = story_count.get(cat, 0) + 1
+        frames.append({
+            "id": f"story-{fid}",
+            "path": out_rel,
+            "ratio": "9:16",
+            "categories": categories,
+            "tags": tags,
+            "layout": "S",
+            "keyword": cat,
+            "source": rel,
+        })
+
     manifest = {
         "version": 1,
         "note": "CORAN Frame（見出し焼き込み済み）の在庫。価格・割引・クーポンは焼き込まない。",
@@ -205,7 +240,9 @@ def main():
         f.write("\n")
 
     total_kb = sum(os.path.getsize(os.path.join(OUT_DIR, fr["path"])) for fr in frames) // 1024
-    print(f"作成: {len(frames)}枚 / 合計 {total_kb}KB")
+    n45 = sum(1 for fr in frames if fr["ratio"] == "4:5")
+    n916 = sum(1 for fr in frames if fr["ratio"] == "9:16")
+    print(f"作成: {len(frames)}枚（4:5 {n45} / 9:16 {n916}）/ 合計 {total_kb}KB")
     print(f"目録: {os.path.relpath(MANIFEST_OUT, ROOT)}")
     by_layout = {}
     for fr in frames:
