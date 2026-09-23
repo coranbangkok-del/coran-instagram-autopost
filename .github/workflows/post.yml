@@ -4,9 +4,11 @@ name: CORAN Instagram Auto-Post
 #   火 19:00 ICT (= 12:00 UTC)
 #   金 11:00 ICT (= 04:00 UTC)
 on:
-  schedule:
-    - cron: "0 12 * * 2"
-    - cron: "0 4 * * 5"
+  # 2026-09-23 停止: 週2回の IG 投稿は coran-social へ一本化した（社長決定 2026-09-23）。同じ火・金に二重投稿しないため止める。
+  # 手動実行（workflow_dispatch）は残す。写真素材と CORAN Frame の生成はこの repo のまま使う。
+  # schedule:
+  # - cron: "0 12 * * 2"
+  # - cron: "0 4 * * 5"
   workflow_dispatch: {}   # 手動実行も可能
 
 permissions:
