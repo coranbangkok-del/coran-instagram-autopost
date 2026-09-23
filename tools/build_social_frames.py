@@ -24,6 +24,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -70,6 +71,33 @@ CATEGORY_MAP = {
 }
 SKIP_DIRS = {"generated", "social"}
 
+# 見出しに焼いてはいけない主張。
+#   ・所要時間: 画を選ぶ側（coran-social の selectFrame）はメニューの分数を見ないので、
+#     60分のメニューに「ninety minutes」の画が当たると事実と違う投稿になる。
+#   ・価格/割引: 本文と同じく画にも焼かない（価格の正は予約バックエンドとサイト）。
+#   例外は award カテゴリの受賞名（実際の受賞・受賞写真にしか使われない）。
+FORBIDDEN_HEADLINE = [
+    (re.compile(r"\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\s+minutes?\b", re.I), "所要時間"),
+    (re.compile(r"\b\d+\s*(minutes?|mins?|hours?|hrs?)\b", re.I), "所要時間"),
+    (re.compile(r"\d+\s*(分|時間)"), "所要時間"),
+    (re.compile(r"(฿|THB|バーツ|baht|泰铢|泰銖|바트)", re.I), "価格"),
+    (re.compile(r"(\d+\s*%|OFF\b|割引|discount|sale)", re.I), "割引"),
+]
+HEADLINE_GUARD_EXEMPT = {"award"}
+
+
+def check_headlines(cat, en, ja):
+    """見出しに禁止事項が入っていないか調べ、理由のリストを返す。"""
+    if cat in HEADLINE_GUARD_EXEMPT:
+        return []
+    hits = []
+    for text in (en, ja):
+        for pat, why in FORBIDDEN_HEADLINE:
+            m = pat.search(text or "")
+            if m:
+                hits.append(f'{why}（"{m.group(0)}" in "{text}"）')
+    return hits
+
 
 def frame_id(rel_file):
     """images/manifest.json の "<カテゴリ>/<ファイル名>" から安定した id を作る。"""
@@ -84,6 +112,7 @@ def main():
     args = ap.parse_args()
 
     photos = json.load(open(config.MANIFEST_PATH, encoding="utf-8"))
+    bad_headlines = []
     # 既存の目録があれば、作り直さない画の layout はそこから引く
     # （素材が小さいと A→C に落ちるので、既定値を書くと実物とズレた目録になる）。
     prev_layout = {}
@@ -110,6 +139,8 @@ def main():
         out_path = os.path.join(OUT_DIR, out_rel)
 
         eyebrow, layout_default, en, ja = brandimage.meta_for(photo)
+        for why in check_headlines(cat, en, ja):
+            bad_headlines.append((rel, why))
 
         if os.path.exists(out_path) and not args.force and prev_layout.get(fid):
             layout = prev_layout[fid]
@@ -158,6 +189,12 @@ def main():
     print(f"レイアウト内訳: {by_layout}")
     if skipped:
         print(f"対象外 {len(skipped)}件: " + ", ".join(f"{r}({w})" for r, w in skipped[:5]))
+    if bad_headlines:
+        print(f"\n見出しに書いてはいけない主張が {len(bad_headlines)} 件:")
+        for r, w in bad_headlines:
+            print(f"  {r}: {w}")
+        print("src/brandimage.py の CATEGORY を直してから作り直してください。")
+        return 1
     if failed:
         print(f"失敗 {len(failed)}件:")
         for r, w in failed:
