@@ -105,6 +105,22 @@ def frame_id(rel_file):
     return f"{cat}-{os.path.splitext(name)[0]}".lower().replace(" ", "-").replace("_", "-")
 
 
+def targets_from(photos):
+    """在庫に入れる写真だけを (rel, cat, categories, tags) で返す。対象外は理由付きで別に返す。"""
+    picked, skipped = [], []
+    for photo in photos:
+        rel = photo.get("file") or ""
+        cat = rel.split("/")[0]
+        if cat in SKIP_DIRS:
+            continue
+        if cat not in CATEGORY_MAP:
+            skipped.append((rel, "未知のカテゴリ"))
+            continue
+        categories, tags = CATEGORY_MAP[cat]
+        picked.append((photo, rel, cat, categories, tags))
+    return picked, skipped
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="先頭から N 枚だけ作る（試し刷り）")
@@ -112,7 +128,26 @@ def main():
     args = ap.parse_args()
 
     photos = json.load(open(config.MANIFEST_PATH, encoding="utf-8"))
+    picked, skipped = targets_from(photos)
+
+    # ── パス1: 見出しの検査だけを先に全件やる（ファイルは1つも書かない）──
+    #   ★書き出しの前に落とすのが肝心。あとで検査すると、違反入りの画と目録が
+    #     ディスクに残ったまま exit 1 することになり、exit code を見ない運用で
+    #     そのまま公開されうる（2026-09-23 の独立検証で指摘）。
     bad_headlines = []
+    for photo, rel, cat, _categories, _tags in picked:
+        _eyebrow, _layout_default, en, ja = brandimage.meta_for(photo)
+        for why in check_headlines(cat, en, ja):
+            bad_headlines.append((rel, why))
+    if bad_headlines:
+        print(f"見出しに書いてはいけない主張が {len(bad_headlines)} 件:")
+        for r, w in bad_headlines:
+            print(f"  {r}: {w}")
+        print("src/brandimage.py の CATEGORY を直してから作り直してください。")
+        print("★ファイルは1つも作っていません（画も目録も書き換えていない）。")
+        return 1
+
+    # ── パス2: ここから先で初めて書き出す ──
     # 既存の目録があれば、作り直さない画の layout はそこから引く
     # （素材が小さいと A→C に落ちるので、既定値を書くと実物とズレた目録になる）。
     prev_layout = {}
@@ -122,25 +157,14 @@ def main():
                 prev_layout[fr["id"]] = fr.get("layout")
         except Exception:
             pass
-    frames, skipped, failed = [], [], []
+    frames, failed = [], []
 
-    for photo in photos:
-        rel = photo.get("file") or ""
-        cat = rel.split("/")[0]
-        if cat in SKIP_DIRS:
-            continue
-        if cat not in CATEGORY_MAP:
-            skipped.append((rel, "未知のカテゴリ"))
-            continue
-
-        categories, tags = CATEGORY_MAP[cat]
+    for photo, rel, cat, categories, tags in picked:
         fid = frame_id(rel)
         out_rel = f"{cat}/{fid}.jpg"
         out_path = os.path.join(OUT_DIR, out_rel)
 
         eyebrow, layout_default, en, ja = brandimage.meta_for(photo)
-        for why in check_headlines(cat, en, ja):
-            bad_headlines.append((rel, why))
 
         if os.path.exists(out_path) and not args.force and prev_layout.get(fid):
             layout = prev_layout[fid]
@@ -189,12 +213,6 @@ def main():
     print(f"レイアウト内訳: {by_layout}")
     if skipped:
         print(f"対象外 {len(skipped)}件: " + ", ".join(f"{r}({w})" for r, w in skipped[:5]))
-    if bad_headlines:
-        print(f"\n見出しに書いてはいけない主張が {len(bad_headlines)} 件:")
-        for r, w in bad_headlines:
-            print(f"  {r}: {w}")
-        print("src/brandimage.py の CATEGORY を直してから作り直してください。")
-        return 1
     if failed:
         print(f"失敗 {len(failed)}件:")
         for r, w in failed:
