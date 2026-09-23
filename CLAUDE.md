@@ -26,6 +26,16 @@
 - お客様の声（B 型）は `reviews/curated.json` が `[]` で Places キーも無いため、構造上一度も出ていない（r93・ピンク）。入れるなら★5・40字以上・個人名と他店名なし（curated.json にはコードの閾値が掛からないので人が守る）。
 - Actions 画面で Cancel run を browser_batch でまとめてクリックすると自動モードに拒否され、そのタブが操作不能になる。1件ずつスクショを挟む。
 
+## coran-social（週2回の多チャネル投稿）へ渡す画像
+- `tools/build_social_frames.py` が `images/manifest.json` の全素材を CORAN Frame（4:5・見出し焼き込み）にして
+  `images/social/<カテゴリ>/` に出し、`images/social/manifest.json` を書く。coran-social はこの目録を
+  raw.githubusercontent.com から読んで投稿画像に使う（向こうに Frame 生成を移植しない＝画の実装を1つに保つ）。
+  `~/.local/bin/uv run --python 3.12 --with pillow --with numpy python tools/build_social_frames.py`
+- ★この repo を非公開にすると raw URL が 404 になり、coran-social の IG 投稿が丸ごと失敗する。
+- 素材を足したり EXCLUDE を直したら、このスクリプトを再実行して `images/social/` ごと PR に載せる
+  （人が PR で実物の画を見てから投稿に使われる＝承認ゲートが1枚増える）。
+- 価格・割引・クーポンは見出しにも画にも入れない。`images/manifest.json` から外れた素材は自動的に在庫にも入らない。
+
 ## 素材と画像の決まり
 - manifest の取捨は `tools/build_manifest.py` の EXCLUDE／AROMA_KEEP が唯一の正。manifest.json を手で直さず、理由コメント付きでここを直して再生成。
 - Dream Hotel 時代の写真（`gallery_dream_*`・`SOtraveler-DreamBKK-*`・`*_dream_middlesize`）は使わない。価格を焼き込んだ画像・透かし入り素材は入れない。
