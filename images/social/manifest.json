@@ -1803,6 +1803,795 @@
       "layout": "A",
       "keyword": "thai-massage",
       "source": "thai-massage/coran-spa-bangkok-thai-massage-src-03.jpg"
+    },
+    {
+      "id": "story-aroma-coran-spa-bangkok-aroma-src-01",
+      "path": "stories/aroma/aroma-coran-spa-bangkok-aroma-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-01.jpg"
+    },
+    {
+      "id": "story-aroma-coran-spa-bangkok-aroma-src-02",
+      "path": "stories/aroma/aroma-coran-spa-bangkok-aroma-src-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-02.jpg"
+    },
+    {
+      "id": "story-aroma-coran-spa-bangkok-aroma-src-03",
+      "path": "stories/aroma/aroma-coran-spa-bangkok-aroma-src-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-03.jpg"
+    },
+    {
+      "id": "story-aroma-coran-spa-bangkok-aroma-src-04",
+      "path": "stories/aroma/aroma-coran-spa-bangkok-aroma-src-04.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "aroma",
+      "source": "aroma/coran-spa-bangkok-aroma-src-04.jpg"
+    },
+    {
+      "id": "story-award-coran-spa-bangkok-award-recognition-01",
+      "path": "stories/award/award-coran-spa-bangkok-award-recognition-01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "detail"
+      ],
+      "layout": "S",
+      "keyword": "award",
+      "source": "award/coran-spa-bangkok-award-recognition-01.png"
+    },
+    {
+      "id": "story-award-coran150602-064",
+      "path": "stories/award/award-coran150602-064.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "detail"
+      ],
+      "layout": "S",
+      "keyword": "award",
+      "source": "award/coran150602-064.jpg"
+    },
+    {
+      "id": "story-body-mask-coran-spa-bangkok-body-mask-wrap-treatment-01",
+      "path": "stories/body-mask/body-mask-coran-spa-bangkok-body-mask-wrap-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "body-mask",
+      "source": "body-mask/coran-spa-bangkok-body-mask-wrap-treatment-01.png"
+    },
+    {
+      "id": "story-body-mask-coran-spa-bangkok-body-mask-wrap-treatment-02",
+      "path": "stories/body-mask/body-mask-coran-spa-bangkok-body-mask-wrap-treatment-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "body-mask",
+      "source": "body-mask/coran-spa-bangkok-body-mask-wrap-treatment-02.png"
+    },
+    {
+      "id": "story-body-scrub-coran-spa-bangkok-body-scrub-exfoliation-01",
+      "path": "stories/body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-01.png"
+    },
+    {
+      "id": "story-body-scrub-coran-spa-bangkok-body-scrub-exfoliation-02",
+      "path": "stories/body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-02.png"
+    },
+    {
+      "id": "story-body-scrub-coran-spa-bangkok-body-scrub-exfoliation-03",
+      "path": "stories/body-scrub/body-scrub-coran-spa-bangkok-body-scrub-exfoliation-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "aromatherapy",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "body-scrub",
+      "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-03.png"
+    },
+    {
+      "id": "story-coconut-coran-spa-bangkok-coconut-hair-mask-01",
+      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-hair-mask-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-hair-mask-01.png"
+    },
+    {
+      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-01",
+      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-01.png"
+    },
+    {
+      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-02",
+      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-02.png"
+    },
+    {
+      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-03",
+      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "coconut-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "coconut",
+      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-03.png"
+    },
+    {
+      "id": "story-concept-coran-spa-bangkok-concept-src-01",
+      "path": "stories/concept/concept-coran-spa-bangkok-concept-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "ambiance"
+      ],
+      "layout": "S",
+      "keyword": "concept",
+      "source": "concept/coran-spa-bangkok-concept-src-01.jpg"
+    },
+    {
+      "id": "story-facial-coran-spa-bangkok-facial-src-01",
+      "path": "stories/facial/facial-coran-spa-bangkok-facial-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-01.jpg"
+    },
+    {
+      "id": "story-facial-coran-spa-bangkok-facial-src-02",
+      "path": "stories/facial/facial-coran-spa-bangkok-facial-src-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-02.jpg"
+    },
+    {
+      "id": "story-facial-coran-spa-bangkok-facial-src-03",
+      "path": "stories/facial/facial-coran-spa-bangkok-facial-src-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-03.jpg"
+    },
+    {
+      "id": "story-facial-coran-spa-bangkok-facial-src-04",
+      "path": "stories/facial/facial-coran-spa-bangkok-facial-src-04.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "facial",
+        "facial-body-combo"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "facial",
+      "source": "facial/coran-spa-bangkok-facial-src-04.jpg"
+    },
+    {
+      "id": "story-foot-coran-spa-bangkok-foot-massage-reflexology-01",
+      "path": "stories/foot/foot-coran-spa-bangkok-foot-massage-reflexology-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-massage-reflexology-01.png"
+    },
+    {
+      "id": "story-foot-coran-spa-bangkok-foot-massage-reflexology-02",
+      "path": "stories/foot/foot-coran-spa-bangkok-foot-massage-reflexology-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-massage-reflexology-02.png"
+    },
+    {
+      "id": "story-foot-coran-spa-bangkok-foot-spa-treatment-01",
+      "path": "stories/foot/foot-coran-spa-bangkok-foot-spa-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-spa-treatment-01.png"
+    },
+    {
+      "id": "story-foot-coran-spa-bangkok-foot-spa-treatment-02",
+      "path": "stories/foot/foot-coran-spa-bangkok-foot-spa-treatment-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "foot",
+      "source": "foot/coran-spa-bangkok-foot-spa-treatment-02.png"
+    },
+    {
+      "id": "story-head-massage-coran-spa-bangkok-hair-mask-treatment-01",
+      "path": "stories/head-massage/head-massage-coran-spa-bangkok-hair-mask-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-hair-mask-treatment-01.png"
+    },
+    {
+      "id": "story-head-massage-coran-spa-bangkok-head-massage-relaxation-01",
+      "path": "stories/head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-01.png"
+    },
+    {
+      "id": "story-head-massage-coran-spa-bangkok-head-massage-relaxation-02",
+      "path": "stories/head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-02.png"
+    },
+    {
+      "id": "story-head-massage-coran-spa-bangkok-head-massage-relaxation-03",
+      "path": "stories/head-massage/head-massage-coran-spa-bangkok-head-massage-relaxation-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda",
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "head-massage",
+      "source": "head-massage/coran-spa-bangkok-head-massage-relaxation-03.png"
+    },
+    {
+      "id": "story-herbal-ball-coran-spa-bangkok-herbal-ball-compress-01",
+      "path": "stories/herbal-ball/herbal-ball-coran-spa-bangkok-herbal-ball-compress-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "herbal-ball",
+      "source": "herbal-ball/coran-spa-bangkok-herbal-ball-compress-01.png"
+    },
+    {
+      "id": "story-herbal-ball-coran-spa-bangkok-herbal-ball-compress-02",
+      "path": "stories/herbal-ball/herbal-ball-coran-spa-bangkok-herbal-ball-compress-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "herbal-ball",
+      "source": "herbal-ball/coran-spa-bangkok-herbal-ball-compress-02.png"
+    },
+    {
+      "id": "story-herbs-coran-spa-bangkok-herbal-detox-tea-01",
+      "path": "stories/herbs/herbs-coran-spa-bangkok-herbal-detox-tea-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbal-detox-tea-01.png"
+    },
+    {
+      "id": "story-herbs-coran-spa-bangkok-herbs-src-01",
+      "path": "stories/herbs/herbs-coran-spa-bangkok-herbs-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-01.jpg"
+    },
+    {
+      "id": "story-herbs-coran-spa-bangkok-herbs-src-02",
+      "path": "stories/herbs/herbs-coran-spa-bangkok-herbs-src-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-02.jpg"
+    },
+    {
+      "id": "story-herbs-coran-spa-bangkok-herbs-src-03",
+      "path": "stories/herbs/herbs-coran-spa-bangkok-herbs-src-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage",
+        "ayurveda"
+      ],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "herbs",
+      "source": "herbs/coran-spa-bangkok-herbs-src-03.jpg"
+    },
+    {
+      "id": "story-maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-01",
+      "path": "stories/maternity-massage/maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-prenatal-maternity-massage-01.png"
+    },
+    {
+      "id": "story-maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-03",
+      "path": "stories/maternity-massage/maternity-massage-coran-spa-bangkok-prenatal-maternity-massage-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-prenatal-maternity-massage-03.png"
+    },
+    {
+      "id": "story-maternity-massage-coran-spa-bangkok-sweet-almond-oil-maternity-01",
+      "path": "stories/maternity-massage/maternity-massage-coran-spa-bangkok-sweet-almond-oil-maternity-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "prenatal-postnatal"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "maternity-massage",
+      "source": "maternity-massage/coran-spa-bangkok-sweet-almond-oil-maternity-01.png"
+    },
+    {
+      "id": "story-milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-01",
+      "path": "stories/milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-01.png"
+    },
+    {
+      "id": "story-milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-02",
+      "path": "stories/milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-02.png"
+    },
+    {
+      "id": "story-milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-03",
+      "path": "stories/milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-03.png"
+    },
+    {
+      "id": "story-milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-04",
+      "path": "stories/milk-spa/milk-spa-coran-spa-bangkok-milk-bath-spa-treatment-04.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "milk-spa"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "milk-spa",
+      "source": "milk-spa/coran-spa-bangkok-milk-bath-spa-treatment-04.png"
+    },
+    {
+      "id": "story-office-syndrome-coran-spa-bangkok-office-syndrome-treatment-01",
+      "path": "stories/office-syndrome/office-syndrome-coran-spa-bangkok-office-syndrome-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "office-syndrome",
+      "source": "office-syndrome/coran-spa-bangkok-office-syndrome-treatment-01.png"
+    },
+    {
+      "id": "story-office-syndrome-coran-spa-bangkok-office-syndrome-vdt-treatment-01",
+      "path": "stories/office-syndrome/office-syndrome-coran-spa-bangkok-office-syndrome-vdt-treatment-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "office-syndrome",
+      "source": "office-syndrome/coran-spa-bangkok-office-syndrome-vdt-treatment-01.png"
+    },
+    {
+      "id": "story-product-coran-spa-bangkok-lotus-body-scrub-product-01",
+      "path": "stories/product/product-coran-spa-bangkok-lotus-body-scrub-product-01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "product",
+      "source": "product/coran-spa-bangkok-lotus-body-scrub-product-01.png"
+    },
+    {
+      "id": "story-product-coran-spa-bangkok-organic-spa-products-01",
+      "path": "stories/product/product-coran-spa-bangkok-organic-spa-products-01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "product"
+      ],
+      "layout": "S",
+      "keyword": "product",
+      "source": "product/coran-spa-bangkok-organic-spa-products-01.jpg"
+    },
+    {
+      "id": "story-shirodhara-coran-spa-bangkok-shirodhara-src-01",
+      "path": "stories/shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-01.jpg"
+    },
+    {
+      "id": "story-shirodhara-coran-spa-bangkok-shirodhara-src-02",
+      "path": "stories/shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-02.jpg"
+    },
+    {
+      "id": "story-shirodhara-coran-spa-bangkok-shirodhara-src-03",
+      "path": "stories/shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-03.jpg"
+    },
+    {
+      "id": "story-shirodhara-coran-spa-bangkok-shirodhara-src-04",
+      "path": "stories/shirodhara/shirodhara-coran-spa-bangkok-shirodhara-src-04.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "ayurveda"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "shirodhara",
+      "source": "shirodhara/coran-spa-bangkok-shirodhara-src-04.jpg"
+    },
+    {
+      "id": "story-shop-entrance-02",
+      "path": "stories/shop/shop-entrance-02.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "layout": "S",
+      "keyword": "shop",
+      "source": "shop/entrance_02.jpg"
+    },
+    {
+      "id": "story-shop-nighthotel.building",
+      "path": "stories/shop/shop-nighthotel.building.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "layout": "S",
+      "keyword": "shop",
+      "source": "shop/nighthotel.building.png"
+    },
+    {
+      "id": "story-shop-outside-building-01",
+      "path": "stories/shop/shop-outside-building-01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "layout": "S",
+      "keyword": "shop",
+      "source": "shop/outside-building_01.jpg"
+    },
+    {
+      "id": "story-shop-reception01",
+      "path": "stories/shop/shop-reception01.jpg",
+      "ratio": "9:16",
+      "categories": [],
+      "tags": [
+        "interior",
+        "ambiance"
+      ],
+      "layout": "S",
+      "keyword": "shop",
+      "source": "shop/reception01.jpg"
+    },
+    {
+      "id": "story-thai-massage-coran-spa-bangkok-thai-massage-src-01",
+      "path": "stories/thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-01.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-01.jpg"
+    },
+    {
+      "id": "story-thai-massage-coran-spa-bangkok-thai-massage-src-02",
+      "path": "stories/thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-02.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-02.jpg"
+    },
+    {
+      "id": "story-thai-massage-coran-spa-bangkok-thai-massage-src-03",
+      "path": "stories/thai-massage/thai-massage-coran-spa-bangkok-thai-massage-src-03.jpg",
+      "ratio": "9:16",
+      "categories": [
+        "massage"
+      ],
+      "tags": [
+        "treatment"
+      ],
+      "layout": "S",
+      "keyword": "thai-massage",
+      "source": "thai-massage/coran-spa-bangkok-thai-massage-src-03.jpg"
     }
   ]
 }

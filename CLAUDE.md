@@ -31,6 +31,9 @@
   `images/social/<カテゴリ>/` に出し、`images/social/manifest.json` を書く。coran-social はこの目録を
   raw.githubusercontent.com から読んで投稿画像に使う（向こうに Frame 生成を移植しない＝画の実装を1つに保つ）。
   `~/.local/bin/uv run --python 3.12 --with pillow --with numpy python tools/build_social_frames.py`
+- 同じスクリプトが **9:16 のストーリー背景**も作る（`images/social/stories/<カテゴリ>/`・カテゴリごと
+  `--per-category` 枚まで・既定4）。★こちらは**文字を焼かない**。毎朝の「本日の空き」ストーリーは
+  時刻が毎日変わるので、文字は coran-social が投稿の直前に載せる。絵は `brandkit.layout_story_bg()`。
 - ★この repo を非公開にすると raw URL が 404 になり、coran-social の IG 投稿が丸ごと失敗する。
 - 素材を足したり EXCLUDE を直したら、このスクリプトを再実行して `images/social/` ごと PR に載せる
   （人が PR で実物の画を見てから投稿に使われる＝承認ゲートが1枚増える）。

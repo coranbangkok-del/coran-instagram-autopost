@@ -330,3 +330,30 @@ def layout_sanctuary(photo_path, eyebrow, en, ja):
 
 
 LAYOUTS = {"A": layout_editorial, "B": layout_testimonial, "C": layout_sanctuary}
+
+
+# ---------------------------------------------------------------- story (9:16)
+STORY_W, STORY_H = 1080, 1920
+
+
+def layout_story_bg(photo_path):
+    """S: IG ストーリー用の背景（9:16）。★文字を焼かない。
+
+    本日の空き時刻などは投稿の直前に載せる（毎日変わるため）ので、ここで作るのは
+    「CORAN の絵」だけ＝階調・トリミング・スクリム・ロックアップ・所在地。
+    上下は IG の UI（プロフィール行と返信バー）に隠れるので、文字を置くのは中央帯だけに限る。
+    """
+    r = STORY_W / STORY_H
+    base = grade(smart_crop(Image.open(photo_path), r)).convert("RGB")
+    if base.size != (STORY_W, STORY_H):
+        base = base.resize((STORY_W, STORY_H), Image.LANCZOS)
+
+    # 中央帯に文字が載るので、全体を均一に落としたうえで上下を少し締める。
+    overlay = Image.new("RGB", (STORY_W, STORY_H), BROWN_DARK)
+    base = Image.blend(base, overlay, 0.42)
+
+    d = ImageDraw.Draw(base)
+    lockup(base, d, STORY_W / 2, 210, CREAM, 0.9)
+    _text_ls(d, (STORY_W / 2, STORY_H - 250), "SUKHUMVIT SOI 15  ·  BANGKOK",
+             font("jp", 22, 400), (214, 200, 186), ls=4, center=True)
+    return base
