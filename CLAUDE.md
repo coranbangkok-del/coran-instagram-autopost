@@ -1,4 +1,4 @@
-# coran-instagram-autopost（@coranboutiquespa IG 自動投稿・パープル主管）
+# coran-instagram-autopost（写真素材と CORAN Frame 生成・パープル主管。定期投稿は coran-social）
 
 ## 動かし方（この Mac）
 - 素の python3 の Pillow は x86 で落ちる。ローカルは必ず
@@ -9,8 +9,8 @@
 - `python src/main.py prepare|publish` をローカルで本物の Secrets 付きで叩かない（publish＝IG へ実投稿、prepare＝LINE 送信の可能性）。
 
 ## CI（.github/workflows）
-- `post.yml` 火 19:00／金 11:00 BKK。prepare → 生成画像を main へ bot コミット → `environment: production`（必須レビュアー＝社長）→ publish → `state/` を main へ bot コミット。
-- `post-spot.yml`（09:00）・`post-gbp.yml`（09:10）は Secrets の `SPOT_SNS`／`GBP_POST` が "on" のときだけ候補を作る。GBP の実投稿は GAS 側（coran-review-bot の SpotPromoPoster）で、ここの GBP ジョブは空実行の見込み。
+- `post.yml` は手動実行専用（schedule は止めてある。coran-social と同じ曜日に二重投稿しないため）。流れは prepare → 生成画像を main へ bot コミット → `environment: production`（必須レビュアー＝社長）→ publish → `state/` を main へ bot コミット。
+- `post-spot.yml` は手動実行専用（schedule は止めてある）。`post-gbp.yml`（毎日 09:10）は Secrets の `GBP_POST` が "on" のときだけ候補を作る。GBP の実投稿は GAS 側（coran-review-bot の SpotPromoPoster）で、ここの GBP ジョブは空実行の見込み。
 - `refresh-token.yml` 毎月1日 03:00 UTC。長期トークン60日。最後の成功 9/1＝10/31 頃失効。次回 10/1 の成功確認＝r35。
 - GitHub cron は2〜5時間遅れる（spot は 09:00 予定が 14 時台に走った実績）。時刻が要る告知はここに載せない。
 - 実行履歴は匿名 API で読める（Chrome 不要）:
