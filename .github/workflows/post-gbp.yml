@@ -4,8 +4,14 @@ name: CORAN GBP Spot Promo Post
 # ★既定OFF: GBP_POST が "on" 以外だと prepare-gbp は候補を作らず publish-gbp はスキップ。
 #   空きが無い日も候補なし＝投稿なし（fail-closed）。実投稿は Business Profile API の OAuth が必要。
 on:
-  schedule:
-    - cron: "10 2 * * *"   # 09:10 ICT（SNS と時刻をずらす）
+  # 2026-09-30 停止（B-013）: GBP のスポット告知の実投稿は GAS 版（coran-review-bot の
+  #   postSpotPromoGbp・毎日 09:00 ICT・2026-09-14 点灯）が担う。この GHA 版は GBP_POST が
+  #   "on" でないため候補を作らず、publish は毎日 skipped の空実行だった（9/20〜9/29 実測）。
+  #   GBP_POST を "on" にすると GAS 版と二重投稿になり、publish は production 環境の承認待ちで
+  #   滞留し得る（B-006 と同型）。毎日の定期実行を止め、手動実行（workflow_dispatch）だけ残す。
+  #   戻し方: 下の schedule 2行のコメントを外す。
+  # schedule:
+  #   - cron: "10 2 * * *"   # 09:10 ICT（SNS と時刻をずらす）
   workflow_dispatch: {}
 
 permissions:

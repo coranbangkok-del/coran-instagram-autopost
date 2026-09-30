@@ -10,7 +10,7 @@
 
 ## CI（.github/workflows）
 - `post.yml` は手動実行専用（schedule は止めてある。coran-social と同じ曜日に二重投稿しないため）。流れは prepare → 生成画像を main へ bot コミット → `environment: production`（必須レビュアー＝社長）→ publish → `state/` を main へ bot コミット。
-- `post-spot.yml` は手動実行専用（schedule は止めてある）。`post-gbp.yml`（毎日 09:10）は Secrets の `GBP_POST` が "on" のときだけ候補を作る。GBP の実投稿は GAS 側（coran-review-bot の SpotPromoPoster）で、ここの GBP ジョブは空実行の見込み。
+- `post-spot.yml`・`post-gbp.yml` は手動実行専用（schedule は止めてある・post-gbp は 2026-09-30 B-013）。GBP の実投稿は GAS 側（coran-review-bot の SpotPromoPoster・毎日 09:00）だけ。`GBP_POST` を "on" にすると二重投稿になるので上げない。
 - `refresh-token.yml` 毎月1日 03:00 UTC。長期トークン60日。最後の成功 9/1＝10/31 頃失効。次回 10/1 の成功確認＝r35。
 - GitHub cron は2〜5時間遅れる（spot は 09:00 予定が 14 時台に走った実績）。時刻が要る告知はここに載せない。
 - 実行履歴は匿名 API で読める（Chrome 不要）:
