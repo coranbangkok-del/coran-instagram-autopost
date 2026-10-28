@@ -472,70 +472,6 @@
       "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-03.png"
     },
     {
-      "id": "coconut-coran-spa-bangkok-coconut-hair-mask-01",
-      "path": "coconut/coconut-coran-spa-bangkok-coconut-hair-mask-01.jpg",
-      "ratio": "4:5",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "headlineEn": "The islands, in a jar.",
-      "headlineJa": "南の島の恵みを、ひと瓶に。",
-      "layout": "A",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-hair-mask-01.png"
-    },
-    {
-      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-01",
-      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-01.jpg",
-      "ratio": "4:5",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "headlineEn": "The islands, in a jar.",
-      "headlineJa": "南の島の恵みを、ひと瓶に。",
-      "layout": "A",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-01.png"
-    },
-    {
-      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-02",
-      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-02.jpg",
-      "ratio": "4:5",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "headlineEn": "Coconut, slow and warm.",
-      "headlineJa": "ココナッツの温もりを、ゆっくりと。",
-      "layout": "A",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-02.png"
-    },
-    {
-      "id": "coconut-coran-spa-bangkok-coconut-oil-treatment-03",
-      "path": "coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-03.jpg",
-      "ratio": "4:5",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "headlineEn": "The islands, in a jar.",
-      "headlineJa": "南の島の恵みを、ひと瓶に。",
-      "layout": "A",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-03.png"
-    },
-    {
       "id": "concept-coran-spa-bangkok-concept-src-01",
       "path": "concept/concept-coran-spa-bangkok-concept-src-01.jpg",
       "ratio": "4:5",
@@ -1960,62 +1896,6 @@
       "layout": "S",
       "keyword": "body-scrub",
       "source": "body-scrub/coran-spa-bangkok-body-scrub-exfoliation-03.png"
-    },
-    {
-      "id": "story-coconut-coran-spa-bangkok-coconut-hair-mask-01",
-      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-hair-mask-01.jpg",
-      "ratio": "9:16",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "layout": "S",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-hair-mask-01.png"
-    },
-    {
-      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-01",
-      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-01.jpg",
-      "ratio": "9:16",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "layout": "S",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-01.png"
-    },
-    {
-      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-02",
-      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-02.jpg",
-      "ratio": "9:16",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "layout": "S",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-02.png"
-    },
-    {
-      "id": "story-coconut-coran-spa-bangkok-coconut-oil-treatment-03",
-      "path": "stories/coconut/coconut-coran-spa-bangkok-coconut-oil-treatment-03.jpg",
-      "ratio": "9:16",
-      "categories": [
-        "coconut-spa"
-      ],
-      "tags": [
-        "treatment"
-      ],
-      "layout": "S",
-      "keyword": "coconut",
-      "source": "coconut/coran-spa-bangkok-coconut-oil-treatment-03.png"
     },
     {
       "id": "story-concept-coran-spa-bangkok-concept-src-01",
