@@ -34,6 +34,12 @@ EXCLUDE = {
     # 入口の立て看板に「SPECIAL OFFERS UP TO 30% DISCOUNT」と価格表が写っている（2026-09-22 パープル実測・
     # スマホ承認のお試し候補で発見）。C 型の額装は切らずに見せるので、そのまま投稿に出てしまう。
     "shop/enntrance_01.jpg": "入口の立て看板に割引の文言と価格表が写り込んでいる",
+    # Coconut Spa（Palms v2.5＝M052/M053）は 2026-10-28 廃止（サイト #224・予約 #142・0072b）。
+    # 廃止メニューの画を投稿に出さない。Milk Spa（milk-spa/）の素材は別フォルダ＝対象外。
+    "coconut/coran-spa-bangkok-coconut-hair-mask-01.png": "廃止メニュー Coconut Spa の素材（2026-10-28）",
+    "coconut/coran-spa-bangkok-coconut-oil-treatment-01.png": "廃止メニュー Coconut Spa の素材（2026-10-28）",
+    "coconut/coran-spa-bangkok-coconut-oil-treatment-02.png": "廃止メニュー Coconut Spa の素材（2026-10-28）",
+    "coconut/coran-spa-bangkok-coconut-oil-treatment-03.png": "廃止メニュー Coconut Spa の素材（2026-10-28）",
 }
 
 AROMA_KEEP = {
@@ -113,7 +119,8 @@ def main():
 
     out, dropped = [], []
     for root, dirs, files in os.walk(IMAGES):
-        dirs[:] = [d for d in dirs if d != "generated"]   # 生成物は素材ではない
+        # 生成物は素材ではない。social/ は build_social_frames.py の出力（9/23 以降）＝素材に数えると額装を再額装する
+        dirs[:] = [d for d in dirs if d not in ("generated", "social")]
         for f in sorted(files):
             if not f.lower().endswith((".png", ".jpg", ".jpeg")):
                 continue
