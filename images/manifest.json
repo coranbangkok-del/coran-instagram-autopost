@@ -278,7 +278,27 @@
     "alt": "CORAN body scrub and exfoliation"
   },
   {
+    "file": "body-scrub/coran-spa-bangkok-body-scrub-src-01.jpg",
+    "tags": [
+      "service",
+      "treatment",
+      "ambience",
+      "body-scrub"
+    ],
+    "alt": "CORAN body scrub and exfoliation"
+  },
+  {
     "file": "concept/coran-spa-bangkok-concept-src-01.jpg",
+    "tags": [
+      "service",
+      "treatment",
+      "ambience",
+      "concept"
+    ],
+    "alt": "the calm, natural atmosphere of CORAN"
+  },
+  {
+    "file": "concept/coran-spa-bangkok-concept-src-02.jpg",
     "tags": [
       "service",
       "treatment",
@@ -628,6 +648,16 @@
     "alt": "CORAN Thai herbal compress ball"
   },
   {
+    "file": "herbal-ball/coran-spa-bangkok-herbal-ball-src-01.jpg",
+    "tags": [
+      "service",
+      "treatment",
+      "ambience",
+      "herbal-ball"
+    ],
+    "alt": "CORAN Thai herbal compress ball"
+  },
+  {
     "file": "herbs/coran-spa-bangkok-herbal-detox-tea-01.png",
     "tags": [
       "service",
@@ -659,6 +689,16 @@
   },
   {
     "file": "herbs/coran-spa-bangkok-herbs-src-03.jpg",
+    "tags": [
+      "service",
+      "treatment",
+      "ambience",
+      "herbs"
+    ],
+    "alt": "Thai herbs and remedies used at CORAN"
+  },
+  {
+    "file": "herbs/coran-spa-bangkok-herbs-src-04.jpg",
     "tags": [
       "service",
       "treatment",
